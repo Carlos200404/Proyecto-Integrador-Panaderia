@@ -1,84 +1,120 @@
-.carrusel-container {
-    position: relative;
-    max-width: 100%;
+:root {
+  --ColorPrincipal: #CA7B42;
+}
+
+.c-item {
+  height: 480px;
+}
+
+.c-img {
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+  width: 50% !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 290px;
+  border-top-right-radius: 180px !important;
+  filter: brightness(0.9);
+  transition: all 0.3s ease-in-out;
+}
+
+.carousel-caption {
+  right: 5%;
+  left: auto;
+  text-align: left;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 15px;
+  right: 50%;
+  transform: translateX(135%);
+}
+
+.text-destacado {
+  color: #CA7B42 !important;
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #A0522D;
+  border: 1px solid #A0522D;
+  opacity: 0.6;
+  transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.carousel-indicators .active {
+  background-color: #5D3A00;
+  opacity: 1;
+}
+
+#botonCarrusel {
+  margin-left: 220px !important;
+}
+
+/* Cambios solo en media queries */
+@media (max-width: 1251px) {
+  #parrafo-texto {
+    font-size: 25px !important;
     margin: auto;
-    overflow: hidden;
+    color: white !important;
+    text-align: center;
   }
-  
-  .carrusel {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-  }
-  
-  .carrusel-item {
-    min-width: 100%;
-    position: relative;
-  }
-  
-  .carrusel-image {
+
+  .carousel-caption {
+    text-align: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 300px;
     width: 100%;
-    border-radius: 20px;
-    object-fit: cover;
-  }
-  
-  .carrusel-text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #000;
-    text-align: center;
   }
-  
-  .carrusel-text h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #000;
-  }
-  
-  .highlight {
-    color: #D26548; 
-  }
-  
-  .carrusel-text p {
-    font-size: 1.2rem;
-    margin-top: 10px;
-    color: #6c757d;
-  }
-  
-  .btn-productos {
-    background-color: #4A4A4A;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
+
+  #botonCarrusel {
     margin-top: 20px;
-    cursor: pointer;
-    border-radius: 5px;
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important; 
   }
-  
-  .btn-productos:hover {
-    background-color: #333;
+
+  .c-img {
+    width: 100% !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px !important;
+    filter: brightness(0.4);
   }
-  
-  .carrusel-nav {
-    text-align: center;
+
+  .carousel-indicators {
     position: absolute;
-    bottom: 10px;
-    width: 100%;
+    bottom: 15px;
+    right: 50%;
+    transform: translateX(125%);
   }
-  
-  .dot {
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-    margin: 0 5px;
-    background-color: #bbb;
-    border-radius: 50%;
-    cursor: pointer;
+
+  span.carousel-control-next-icon {
+    margin-top: 14px;
   }
-  
-  .dot.active {
-    background-color: #717171;
+
+  span.carousel-control-prev-icon {
+    margin-top: 14px;
   }
-  
+}
+@media (max-width:770px){
+  #parrafo-texto {
+    font-size: 19px !important;
+    margin: auto;
+    color: white !important;
+    text-align: center;
+  }
+  span.text-destacado{
+    font-size: 19px!important;
+  }
+}

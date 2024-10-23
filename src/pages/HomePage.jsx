@@ -2,11 +2,11 @@ import React from 'react'
 import Carrusel from '../components/Carrusel'
 
 export default function HomePage() {
-  return 
-  (
+  return (
    <>
      <div>
-      <Carrusel />
+      <Carrusel/>
+      <p>xd</p>
     </div>
    </>
 )
