@@ -40,13 +40,23 @@ export default function Carrusel() {
               alt="Slide 1"
             />
             <div className="carousel-caption top-0 mt-4">
-              <p className="text-center fs-3 mt-5 text-dark fw-bold fs-1" id="parrafo-texto">
-              Descubre el <span className="text-destacado">Sabor Autentico</span> de la Tradicion
+              <p
+                className="text-center fs-3 mt-5 text-dark fw-bold fs-1"
+                id="parrafo-texto"
+              >
+               Descubre el <span className="text-destacado">Auténtico Sabor</span> de la Tradición.
               </p>
-              <p className="display-1 fw-bolder text-capitalize text-dark fs-3" id="parrafo-texto">
-              Disfruta Cada Bocado con <span className="text-destacado">Ingredientes de Calidad</span>
+              <p
+                className="display-1 fw-bolder text-capitalize text-dark fs-3"
+                id="parrafo-texto"
+              >
+                Disfruta Cada Bocado con{" "}
+                <span className="text-destacado">Ingredientes de Calidad</span>
               </p>
-              <button className="btn btn-dark px-4 py-2 fs-5 mt-5" id="botonCarrusel">
+              <button
+                className="btn btn-dark px-4 py-2 fs-5 mt-5"
+                id="botonCarrusel"
+              >
                 Ver Productos
               </button>
             </div>
@@ -54,45 +64,57 @@ export default function Carrusel() {
 
           <div className="carousel-item c-item">
             <img
-              src="https://images.unsplash.com/photo-1516466723877-e4ec1d736c8a?fit=crop&w=2134&q=100"
+              src="https://www.colbake.com/wp-content/uploads/2019/01/tradicion-maquinaria-panaderia.jpg"
               className="d-block w-100 c-img"
               alt="Slide 2"
             />
             <div className="carousel-caption top-0 mt-4">
-              <p className="text-uppercase fs-3 mt-5 ">
-                The season has arrived
+              <p
+                className="text-center fs-3 mt-5 text-dark fw-bold fs-1"
+                id="parrafo-texto"
+              >
+                Disfruta del <span className="text-destacado">Sabor Artesanal</span> en Cada Mordisco
               </p>
-              <p className="display-1 fw-bolder text-capitalize text-dark">
-                3 available tours
+              <p
+                className="display-1 fw-bolder text-capitalize text-dark fs-3"
+                id="parrafo-texto"
+              >
+                Disfruta Cada Bocado con{" "}
+                <span className="text-destacado">Ingredientes de Calidad</span>
               </p>
               <button
-                className="btn btn-primary px-4 py-2 fs-5 mt-5"
-                data-bs-toggle="modal"
-                data-bs-target="#booking-modal"
+                className="btn btn-dark px-4 py-2 fs-5 mt-5"
+                id="botonCarrusel"
               >
-                Book a tour
+                Ver Productos
               </button>
             </div>
           </div>
           <div className="carousel-item c-item">
             <img
-              src="https://images.unsplash.com/photo-1612686635542-2244ed9f8ddc?fit=crop&w=2070&q=100"
+              src="https://crehana-blog.imgix.net/media/filer_public/ce/f0/cef02377-ded8-4d7b-8a6d-7ba484b66ad4/la-farm-robb-report.jpg?auto=format&q=50"
               className="d-block w-100 c-img"
               alt="Slide 3"
             />
             <div className="carousel-caption top-0 mt-4">
-              <p className="text-uppercase fs-3 mt-5 text-dark">
-                Destination activities
+              <p
+                className="text-center fs-3 mt-5 text-dark fw-bold fs-1"
+                id="parrafo-texto"
+              >
+                Siente la <span className="text-destacado">Calidad y Frescura</span> en Cada Bocado.
               </p>
-              <p className="display-1 fw-bolder text-capitalize text-dark">
-                Go glacier hiking
+              <p
+                className="display-1 fw-bolder text-capitalize text-dark fs-3"
+                id="parrafo-texto"
+              >
+                Disfruta Cada Bocado con{" "}
+                <span className="text-destacado">Ingredientes de Calidad</span>
               </p>
               <button
-                className="btn btn-primary px-4 py-2 fs-5 mt-5"
-                data-bs-toggle="modal"
-                data-bs-target="#booking-modal"
+                className="btn btn-dark px-4 py-2 fs-5 mt-5"
+                id="botonCarrusel"
               >
-                Book a tour
+                Ver Productos
               </button>
             </div>
           </div>

@@ -105,13 +105,13 @@ export default function
               <div className="offcanvas-body">
                 <ul className="navbar-nav justify-content-center flex-grow-1 px-3 pe-5">
                   <li className="nav-item mx-2">
-                    <a href="#">Inicio</a>
+                    <Link to={"/"}>Inicio</Link>
                   </li>
                   <li className="nav-item mx-2">
-                    <a href="#">Productos</a>
+                    <Link to={"/productos"}>Productos</Link>
                   </li>
                   <li className="nav-item mx-2">
-                    <a href="#">Contacto</a>
+                    <Link to={"/contacto"}>Contacto</Link>
                   </li>
                 </ul>
                 {/* Login / Sign up  & Cart */}
