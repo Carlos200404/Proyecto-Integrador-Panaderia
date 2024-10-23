@@ -2,8 +2,7 @@ import logo from "../images/logo.png";
 import { Link } from "react-router-dom";
 import StyleHeader from "../stylesComponent/StyleHeader.css";
 
-export default function 
-() {
+export default function () {
   return (
     <>
       <header>
@@ -63,11 +62,14 @@ export default function
         </div>
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-white">
-          <div className="container-fluid justify-content-between" id="divHeader">
+          <div
+            className="container-fluid justify-content-between"
+            id="divHeader"
+          >
             {/* Logo */}
-            <a href="#" className="mx-4">
+            <Link to={"/"} className="mx-4">
               <img src={logo} alt="Logo" className="logo" />
-            </a>
+            </Link>
 
             {/* Toggle Button */}
             <button
@@ -147,5 +149,5 @@ export default function
         </nav>
       </header>
     </>
-  )
+  );
 }
