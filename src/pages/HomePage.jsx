@@ -11,7 +11,6 @@ export default function HomePage() {
       <div className="section-nosotros">
         <h1 className="text-center">Nosotros</h1>
 
-        {/* Historia Section */}
         <div className="container-historia mt-5">
           <div className="cuadro-fondo"></div>
           <img
@@ -33,7 +32,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Misión Section */}
         <div className="container-historia-reverse">
           <div className="cuadro-fondo-reverse"></div>
           <div className="texto-historia">
@@ -55,7 +53,6 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Visión Section */}
         <div className="container-historia">
           <div className="cuadro-fondo"></div>
           <img

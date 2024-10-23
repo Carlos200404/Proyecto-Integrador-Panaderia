@@ -23,7 +23,6 @@ export default function ProductsPage() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-2">
-            {/* Aquí puedes poner algún contenido adicional */}
           </div>
           <div className="col-10">
             {productos.length > 0 ? (
