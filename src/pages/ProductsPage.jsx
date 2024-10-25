@@ -51,7 +51,6 @@ export default function ProductsPage() {
             />
           </div>
           <div className="col-2">
-            {/* Componente de Filtro de Precios */}
             <div className="filtro-precios">
               <h5>Filtrar por precios</h5>
               <input
