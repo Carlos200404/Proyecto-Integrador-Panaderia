@@ -35,7 +35,7 @@ export default function Carrusel() {
         <div className="carousel-inner">
           <div className="carousel-item active c-item">
             <img
-              src="https://www.xrecetas.com/wp-content/uploads/2020/08/facturas-xrecetas-600x399.jpg"
+              src="https://www.colbake.com/wp-content/uploads/2019/01/tradicion-maquinaria-panaderia.jpg"
               className="d-block w-100 c-img"
               alt="Slide 1"
             />
@@ -64,7 +64,7 @@ export default function Carrusel() {
 
           <div className="carousel-item c-item">
             <img
-              src="https://www.colbake.com/wp-content/uploads/2019/01/tradicion-maquinaria-panaderia.jpg"
+              src="https://img.freepik.com/fotos-premium/panaderia-pan-hd-8k-papel-pared-imagen-fotografica-stock_1066384-343.jpg"
               className="d-block w-100 c-img"
               alt="Slide 2"
             />
@@ -92,7 +92,7 @@ export default function Carrusel() {
           </div>
           <div className="carousel-item c-item">
             <img
-              src="https://crehana-blog.imgix.net/media/filer_public/ce/f0/cef02377-ded8-4d7b-8a6d-7ba484b66ad4/la-farm-robb-report.jpg?auto=format&q=50"
+              src="https://img.freepik.com/premium-photo/bakery-items-background-hd-8k-wallpaper-stock-photographic-image_1064748-71.jpg"
               className="d-block w-100 c-img"
               alt="Slide 3"
             />

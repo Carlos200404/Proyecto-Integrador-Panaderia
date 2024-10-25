@@ -8,6 +8,8 @@ export default function Filtro({
   setFiltroPrecio,
   precioMin,
   precioMax,
+  categorias,
+  setCategoriaSeleccionada,
 }) {
   return (
     <div className="col-md-3 text-center filtro-container">
@@ -36,6 +38,31 @@ export default function Filtro({
         <p>
           Precio: S/{filtroPrecio[0]} - S/{filtroPrecio[1]}
         </p>
+      </div>
+      <div className="filtro-categorias">
+        <h5 className="mt-4 text-filtrar">Filtrar por categorías</h5>
+        <ul className="categoria-list">
+          <li>
+            <div
+              className="categoria-header"
+              onClick={() => setCategoriaSeleccionada(null)} 
+              style={{ cursor: "pointer", display: "flex", justifyContent: "space-between" }}
+            >
+              <span>Sin categoría</span>
+            </div>
+          </li>
+          {categorias.map((categoria) => (
+            <li key={categoria.id}>
+              <div
+                className="categoria-header"
+                onClick={() => setCategoriaSeleccionada(categoria.nombre)}
+                style={{ cursor: "pointer", display: "flex", justifyContent: "space-between" }}
+              >
+                <span>{categoria.nombre}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

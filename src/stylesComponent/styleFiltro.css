@@ -1,4 +1,3 @@
-
 /* Aplica los estilos solo dentro del contenedor del filtro */
 .filtro-container .text-filtrar {
     color: #6c3b2a; 
@@ -61,3 +60,21 @@
 .filtro-container button:hover {
     background-color: #5a4832;
 }
+.filtro-container .categoria-list {
+    list-style-type: none; 
+    padding: 0;
+    text-align: left;
+}
+
+.filtro-container .categoria-list li {
+    margin-bottom: 10px; 
+    text-align: center;
+}
+
+.filtro-container .categoria-header {
+    color: #6c3b2a;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
