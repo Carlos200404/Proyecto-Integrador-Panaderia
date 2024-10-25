@@ -1,46 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import "../stylesComponent/styleProductos.css";
+import { CarritoContext } from "./CarritoContext";
 
 export default function Productos({ producto }) {
+  const { agregarProducto } = useContext(CarritoContext);
   const notyf = new Notyf({
-    duration: 5000,
+    duration: 3000,
     dismissible: true,
   });
 
-  const agregarProducto = () => {
-    console.log(`Producto agregado: ${producto.nombre}`);
-    let carrito = localStorage.getItem("carrito");
+  const agregarAlCarrito = () => {
+    const resultado = agregarProducto(producto);
 
-    if (!carrito) {
-      carrito = [];
+    if (resultado.success) {
+      notyf.success(resultado.message);
     } else {
-      carrito = JSON.parse(carrito);
+      notyf.error(resultado.message);
     }
-
-    // Buscar el producto en el carrito
-    const productoExistente = carrito.find((item) => item.id === producto.id);
-
-    // Si el producto ya está en el carrito, verificar si el stock es suficiente
-    if (productoExistente) {
-      if (productoExistente.cantidad + 1 > producto.stock) {
-        notyf.error("No hay suficiente stock disponible para este producto.");
-        return; // Detener la función si no hay suficiente stock
-      }
-      productoExistente.cantidad += 1; // Incrementar cantidad si hay stock suficiente
-    } else {
-      // Si el producto no está en el carrito, verificar stock antes de agregarlo
-      if (producto.stock < 1) {
-        notyf.error("Producto agotado.");
-        return;
-      }
-      carrito.push({ ...producto, cantidad: 1 });
-    }
-
-    // Guardar el carrito actualizado en el localStorage
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    notyf.success("Producto agregado al carrito.");
   };
 
   return (
@@ -52,7 +30,7 @@ export default function Productos({ producto }) {
             alt={producto.nombre}
             className="card-img-top"
           />
-          <div className="add-to-cart" onClick={agregarProducto}>
+          <div className="add-to-cart" onClick={agregarAlCarrito}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="10"

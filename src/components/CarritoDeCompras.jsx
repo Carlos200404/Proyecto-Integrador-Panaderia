@@ -1,37 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import "../stylesComponent/styleCarrito.css";
+import { CarritoContext } from "./CarritoContext";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 
 export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
-  const [carrito, setCarrito] = useState([]);
-
-  useEffect(() => {
-    const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
-    setCarrito(carritoGuardado);
-  }, []);
+  const { carrito, setCarrito, vaciarCarrito } = useContext(CarritoContext);
+  const notyf = new Notyf({
+    duration: 3000, // Duración de la alerta
+    dismissible: true, // Alerta dismissible
+  });
 
   const aumentarCantidad = (index) => {
     const nuevoCarrito = [...carrito];
-    if (nuevoCarrito[index].cantidad < nuevoCarrito[index].stock) {
-      nuevoCarrito[index].cantidad += 1;
-      setCarrito(nuevoCarrito);
-      localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    } else {
-      alert("No hay suficiente stock disponible.");
+    const producto = nuevoCarrito[index];
+
+    if (producto.cantidad + 1 > producto.stock) {
+      notyf.error("No hay suficiente stock disponible");
+      return;
     }
+
+    producto.cantidad += 1;
+    setCarrito(nuevoCarrito);
+    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
   };
 
   const disminuirCantidad = (index) => {
     const nuevoCarrito = [...carrito];
-    if (nuevoCarrito[index].cantidad > 1) {
-      nuevoCarrito[index].cantidad -= 1;
-      setCarrito(nuevoCarrito);
-      localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    }
-  };
+    const producto = nuevoCarrito[index];
 
-  const vaciarCarrito = () => {
-    setCarrito([]);
-    localStorage.removeItem("carrito");
+    if (producto.cantidad > 1) {
+      producto.cantidad -= 1;
+    } else {
+      // Eliminar producto si la cantidad llega a 0
+      nuevoCarrito.splice(index, 1);
+    }
+
+    setCarrito(nuevoCarrito);
+    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
   };
 
   const calcularTotal = () => {
@@ -74,9 +80,7 @@ export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
           <div className="total-carrito">
             <h5 className="fw-bold">Total: S/ {calcularTotal().toFixed(2)}</h5>
           </div>
-          <button className="btn-pagina-carrito my-3" onClick={vaciarCarrito}>
-            Ir a Pagar
-          </button>
+          <button className="btn-pagina-carrito my-3">Ir a Pagar</button>
           <button className="btn-vaciar-carrito" onClick={vaciarCarrito}>
             Vaciar Carrito
           </button>

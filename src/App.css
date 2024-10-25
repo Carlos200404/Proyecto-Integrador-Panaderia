@@ -9,7 +9,7 @@ html, body {
   width: 100%;       
 }
 body::-webkit-scrollbar {
-  display: none;
+  display: none !important;
 }
 .App-logo {
   height: 40vmin;
