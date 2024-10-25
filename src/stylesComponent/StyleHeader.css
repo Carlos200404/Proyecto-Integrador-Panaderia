@@ -119,11 +119,11 @@ span:hover {
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(10px);
-        color: rgb(255, 255, 255);
+        color: rgb(255, 255, 255) ;
         z-index: 1050;
         overflow-y: auto;
     }
-
+   
     .d-flex.justify-content-center.align-items-center.gap-3.mx-4 {
         margin-top: 20px;
         flex-direction: column;

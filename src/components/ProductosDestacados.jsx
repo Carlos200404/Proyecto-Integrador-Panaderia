@@ -1,4 +1,3 @@
-import "../stylesComponent/StyleProductosDestacados.css";
 
 const productos = [
   {

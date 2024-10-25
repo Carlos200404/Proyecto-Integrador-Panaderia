@@ -1,5 +1,9 @@
+// ProductsPage.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Productos from "../components/Productos";
+import Filtro from "../components/Filtro";
+import "../stylesPages/StyleProductPage.css";
 
 export default function ProductsPage() {
   const [productos, setProductos] = useState([]);
@@ -7,6 +11,7 @@ export default function ProductsPage() {
   const [precioMax, setPrecioMax] = useState(120);
   const [filtroPrecio, setFiltroPrecio] = useState([1, 120]);
   const [busqueda, setBusqueda] = useState("");
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1400);
 
   useEffect(() => {
     const obtenerProductos = async () => {
@@ -21,6 +26,13 @@ export default function ProductsPage() {
     };
 
     obtenerProductos();
+
+    const handleResize = () => {
+      setIsWideScreen(window.innerWidth >= 1400);
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const filtrarProductos = () => {
@@ -38,58 +50,24 @@ export default function ProductsPage() {
   return (
     <>
       <h1 className="text-center my-4">Nuestros Productos</h1>
-      <div className="container-fluid">
+      <div className={isWideScreen ? "container-fluid" : "container"}>
         <div className="row">
-          {/* Barra de búsqueda */}
-          <div className="col-12 mb-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Buscar por nombre"
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-            />
-          </div>
-          <div className="col-2">
-            <div className="filtro-precios">
-              <h5>Filtrar por precios</h5>
-              <input
-                type="range"
-                min={precioMin}
-                max={precioMax}
-                value={filtroPrecio[0]}
-                onChange={(e) =>
-                  setFiltroPrecio([parseFloat(e.target.value), filtroPrecio[1]])
-                }
-              />
-
-              <p>
-                Precio: S/{filtroPrecio[0]} - S/{filtroPrecio[1]}
-              </p>
-            </div>
-          </div>
+          {/* Filtros */}
+          <Filtro
+            busqueda={busqueda}
+            setBusqueda={setBusqueda}
+            filtroPrecio={filtroPrecio}
+            setFiltroPrecio={setFiltroPrecio}
+            precioMin={precioMin}
+            precioMax={precioMax}
+          />
 
           {/* Productos */}
-          <div className="col-10">
+          <div className="col-md-9">
             {filtrarProductos().length > 0 ? (
               <div className="row">
                 {filtrarProductos().map((producto) => (
-                  <div key={producto.id} className="col-md-4 mb-4">
-                    <div className="card">
-                      <img
-                        src={producto.imgURL || "default.jpg"}
-                        alt={producto.nombre}
-                        className="card-img-top"
-                      />
-                      <div className="card-body">
-                        <h5 className="card-title">{producto.nombre}</h5>
-                        <p className="card-text">
-                          Precio: S/ {producto.precio}
-                        </p>
-                        <p className="card-text">Stock: {producto.stock}</p>
-                      </div>
-                    </div>
-                  </div>
+                  <Productos key={producto.id} producto={producto} />
                 ))}
               </div>
             ) : (

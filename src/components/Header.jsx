@@ -1,16 +1,21 @@
+import { useState } from "react";
 import logo from "../images/logo.png";
 import { Link } from "react-router-dom";
-import StyleHeader from "../stylesComponent/StyleHeader.css";
+import "../stylesComponent/StyleHeader.css";
+import CarritoDeCompras from "./CarritoDeCompras";
 
-export default function () {
+export default function Header() {
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
+
+  const cerrarCarrito = () => {
+    setMostrarCarrito(false); 
+  };
+
   return (
     <>
       <header>
         {/* Barra Naranja de Arriba */}
-        <div
-          className="container-fluid py-2 text-light fw-semibold"
-          style={{ background: "#E65032" }}
-        >
+        <div className="container-fluid py-2 text-light fw-semibold" style={{ background: "#E65032" }}>
           <div className="row">
             <div className="col-6 text-start">
               {/* SVG Telefono */}
@@ -62,45 +67,23 @@ export default function () {
         </div>
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-white">
-          <div
-            className="container-fluid justify-content-between"
-            id="divHeader"
-          >
+          <div className="container-fluid justify-content-between" id="divHeader">
             {/* Logo */}
             <Link to={"/"} className="mx-4">
               <img src={logo} alt="Logo" className="logo" />
             </Link>
 
             {/* Toggle Button */}
-            <button
-              className="navbar-toggler shadow-none border-0"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasNavbar"
-              aria-controls="offcanvasNavbar"
-              aria-label="Toggle navigation"
-            >
+            <button className="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
 
             {/* Sidebar */}
-            <div
-              className="sidebar offcanvas offcanvas-start"
-              tabIndex="-1"
-              id="offcanvasNavbar"
-              aria-labelledby="offcanvasNavbarLabel"
-            >
+            <div className="sidebar offcanvas offcanvas-start" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
               {/* Sidebar header */}
               <div className="offcanvas-header text-white border-bottom">
-                <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
-                  Menú
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close btn-close-white shadow-none"
-                  data-bs-dismiss="offcanvas"
-                  aria-label="Close"
-                ></button>
+                <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
+                <button type="button" className="btn-close btn-close-white shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
               </div>
 
               {/* Sidebar body */}
@@ -118,6 +101,7 @@ export default function () {
                 </ul>
                 {/* Login / Sign up  & Cart */}
                 <div className="d-flex justify-content-center align-items-center gap-3 mx-4">
+                  {/* Icono Perfil */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="30"
@@ -131,14 +115,17 @@ export default function () {
                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
                   </svg>
 
+                  {/* Icono Carrito */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="30"
                     height="30"
                     fill="black"
-                    class="bi bi-cart4"
+                    className="bi bi-cart4"
                     viewBox="0 0 16 16"
                     id="iconos-perfil-bolsa"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setMostrarCarrito(!mostrarCarrito)} // Mostrar carrito al hacer clic
                   >
                     <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
                   </svg>
@@ -148,6 +135,9 @@ export default function () {
           </div>
         </nav>
       </header>
+
+      {/* Mostrar carrito cuando se presiona el ícono */}
+      <CarritoDeCompras mostrarCarrito={mostrarCarrito} cerrarCarrito={cerrarCarrito} />
     </>
   );
 }
