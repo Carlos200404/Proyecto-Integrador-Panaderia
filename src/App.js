@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import ContactPage from "./pages/ContactPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import UserPage from "./pages/UserPage";
 import { CarritoProvider } from "./components/CarritoContext";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/productos" element={<ProductsPage />} />
           <Route path="/contacto" element={<ContactPage />} />
+          <Route path="/usuario" element={<UserPage/>}/>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />
