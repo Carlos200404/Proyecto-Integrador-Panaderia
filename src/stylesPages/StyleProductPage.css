@@ -1,12 +1,33 @@
+.btn-filtrar {
+    background-color: #C07648; /* Color de fondo */
+    color: #fff !important; /* Color del texto */
+    border: none; /* Opcional: quita el borde */
+  }
+  
+  .btn-filtrar:hover {
+    background-color: #a6653c !important; /* Color más oscuro en hover */
+  }
+  
+  .btn-filtrar:focus, 
+  .btn-filtrar:active {
+    background-color: #C07648 !important; /* Mantén el color al hacer clic */
+    color: #fff !important;
+    box-shadow: none; /* Opcional: desactiva el efecto de sombra */
+  }
+  /* Estilos CSS */
 /* StyleProductPage.css */
 
-.ordenPrecio {
-    width: 100%; /* Ajusta este valor según el tamaño deseado */
-  }
-  
-  .ordenar-precio-container {
+/* Centrado de la tarjeta solo en las columnas de productos */
+.col-lg-9 .row .col-sm-6,
+.col-lg-9 .row .col-md-4,
+.col-lg-9 .row .col-lg-3 {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* Alinea el contenido a la derecha */
-  }
-  
+    justify-content: center; /* Centra las tarjetas dentro de las columnas */
+    align-items: center; /* Centra verticalmente en caso de ser necesario */
+}
+
+.producto-card {
+    max-width: 280px; /* Ajusta el tamaño máximo de las tarjetas */
+    margin: auto; /* Centra la tarjeta dentro de la columna */
+    text-align: center; /* Centra el contenido de la tarjeta */
+}

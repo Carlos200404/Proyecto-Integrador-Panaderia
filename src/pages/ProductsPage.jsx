@@ -68,7 +68,7 @@ export default function ProductsPage() {
           {/* Botón para mostrar el filtro en pantallas pequeñas */}
           <div className="col-auto">
             <button
-              className="btn btn-primary d-lg-none mt-4 ms-2"
+              className="btn btn-filtrar d-lg-none mt-4 ms-2"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#filtroProductos"
