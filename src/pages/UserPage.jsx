@@ -1,164 +1,164 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
+import React, { useState, useEffect } from "react";
 import Login from "../components/Login";
+import axios from "axios";
 
 export default function UserPage() {
-  const [primerNombre, setPrimerNombre] = useState("");
-  const [segundoNombre, setSegundoNombre] = useState("");
-  const [primerApellido, setPrimerApellido] = useState("");
-  const [segundoApellido, setSegundoApellido] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [contrasena, setContrasena] = useState("");
-  const [rolId] = useState(2);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [nombreUsuario, setNombreUsuario] = useState("");
+  const [apellidoUsuario, setApellidoUsuario] = useState("");
+  const [correoUsuario, setCorreoUsuario] = useState("");
+  const [telefonoUsuario, setTelefonoUsuario] = useState("");
+  const [nuevaContrasena, setNuevaContrasena] = useState("");
+  const [error, setError] = useState("");
 
-  const notyf = new Notyf({
-    duration: 3000,
-    dismissible: true,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
+  const [originalData, setOriginalData] = useState({});
 
-  // Funciones de validación
-  const isValidName = (name) => /^[a-zA-Z\s]+$/.test(name); // Solo letras y espacios
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isValidPhone = (phone) => /^[0-9]+$/.test(phone); // Solo dígitos
-  const isValidPassword = (password) => password.length >= 8; // Longitud mínima de 8 caracteres
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const nombre = localStorage.getItem("nombre");
+    const apellido = localStorage.getItem("apellido");
+    const correo = localStorage.getItem("correo");
+    const telefono = localStorage.getItem("telefono");
 
-  const handleSubmit = async (e) => {
+    if (token && nombre) {
+      setIsAuthenticated(true);
+      setNombreUsuario(nombre);
+      setApellidoUsuario(apellido);
+      setCorreoUsuario(correo);
+      setTelefonoUsuario(telefono);
+      setOriginalData({ nombre, apellido, correo, telefono }); 
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("nombre");
+    localStorage.removeItem("apellido");
+    localStorage.removeItem("correo");
+    localStorage.removeItem("telefono");
+    setIsAuthenticated(false);
+    setNombreUsuario("");
+    setApellidoUsuario("");
+    setCorreoUsuario("");
+    setTelefonoUsuario("");
+    setOriginalData({});
+    window.location.reload();
+  };
+
+  const validateForm = () => {
+    if (nombreUsuario.length < 2) {
+      setError("El nombre debe tener al menos 2 caracteres");
+      return false;
+    }
+    if (apellidoUsuario.length < 2) {
+      setError("El apellido debe tener al menos 2 caracteres");
+      return false;
+    }
+    const emailPattern = /^[A-Za-z0-9+_.-]+@(.+)$/;
+    if (!emailPattern.test(correoUsuario)) {
+      setError("El correo electrónico no tiene un formato válido");
+      return false;
+    }
+    if (nuevaContrasena && nuevaContrasena.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres");
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
+  const handleUpdate = async (e) => {
     e.preventDefault();
-
-    // Validar los campos antes de enviar
-    if (!isValidName(primerNombre) || !isValidName(primerApellido)) {
-      notyf.error("Los nombres y apellidos deben contener solo letras y espacios");
-      return;
-    }
-
-    if (!isValidEmail(correo)) {
-      notyf.error("Correo electrónico no es válido");
-      return;
-    }
-
-    if (telefono && !isValidPhone(telefono)) {
-      notyf.error("El número de teléfono debe contener solo dígitos");
-      return;
-    }
-
-    if (!isValidPassword(contrasena)) {
-      notyf.error("La contraseña debe tener al menos 8 caracteres");
-      return;
-    }
-
-    const nombre = `${primerNombre} ${segundoNombre}`;
-    const apellido = `${primerApellido} ${segundoApellido}`;
-
-    const nuevoUsuario = {
-      nombre,
-      apellido,
-      correo,
-      telefono,
-      password: contrasena,
-      rol: { id: rolId },
-    };
+    if (!validateForm()) return;
 
     try {
-      const respuesta = await axios.post(
-        "http://localhost:8081/api/usuarios/registrar",
-        nuevoUsuario,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Usuario registrado:", respuesta.data);
-      notyf.success("Usuario registrado exitosamente");
+      const token = localStorage.getItem("token");
+      const updatedUser = {
+        nombre: nombreUsuario,
+        apellido: apellidoUsuario,
+        correo: correoUsuario,
+        telefono: telefonoUsuario,
+        password: nuevaContrasena || undefined, 
+      };
+
+      const response = await axios.put("http://localhost:8081/api/auth/update", updatedUser, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      localStorage.setItem("nombre", nombreUsuario);
+      localStorage.setItem("apellido", apellidoUsuario);
+      localStorage.setItem("correo", correoUsuario);
+      localStorage.setItem("telefono", telefonoUsuario);
+
+      alert("Datos actualizados exitosamente");
+      setOriginalData({ nombre: nombreUsuario, apellido: apellidoUsuario, correo: correoUsuario, telefono: telefonoUsuario });
     } catch (error) {
-      console.error("Error al registrar usuario:", error);
-      if (
-        error.response &&
-        error.response.data === "El correo electrónico ya está registrado"
-      ) {
-        notyf.error("El correo electrónico ya existe en la base de datos");
-      } else {
-        notyf.error("Error al registrar el usuario");
-      }
+      console.error("Error al actualizar usuario:", error);
+      alert("Hubo un problema al actualizar los datos");
     }
   };
 
   return (
-    <>
-      <div>
-        <h2>Registro de Usuario</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Primer Nombre:</label>
-            <input
-              type="text"
-              value={primerNombre}
-              onChange={(e) => setPrimerNombre(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Segundo Nombre:</label>
-            <input
-              type="text"
-              value={segundoNombre}
-              onChange={(e) => setSegundoNombre(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Primer Apellido:</label>
-            <input
-              type="text"
-              value={primerApellido}
-              onChange={(e) => setPrimerApellido(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Segundo Apellido:</label>
-            <input
-              type="text"
-              value={segundoApellido}
-              onChange={(e) => setSegundoApellido(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Correo Electrónico:</label>
-            <input
-              type="email"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Teléfono:</label>
-            <input
-              type="tel"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Contraseña:</label>
-            <input
-              type="password"
-              value={contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit">Registrar Usuario</button>
-        </form>
-      </div>
-      <Login />
-    </>
+    <div>
+      {isAuthenticated ? (
+        <div>
+          <h2>Bienvenido, {originalData.nombre} {originalData.apellido}</h2>
+          <p>Correo: {originalData.correo}</p>
+          <p>Teléfono: {originalData.telefono}</p>
+          <button onClick={handleLogout}>Cerrar Sesión</button>
+
+          <h3>Actualizar Datos</h3>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <form onSubmit={handleUpdate}>
+            <div>
+              <label>Nombre:</label>
+              <input
+                type="text"
+                value={nombreUsuario}
+                onChange={(e) => setNombreUsuario(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Apellido:</label>
+              <input
+                type="text"
+                value={apellidoUsuario}
+                onChange={(e) => setApellidoUsuario(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Correo:</label>
+              <input
+                type="email"
+                value={correoUsuario}
+                onChange={(e) => setCorreoUsuario(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Teléfono:</label>
+              <input
+                type="tel"
+                value={telefonoUsuario}
+                onChange={(e) => setTelefonoUsuario(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Nueva Contraseña:</label>
+              <input
+                type="password"
+                value={nuevaContrasena}
+                onChange={(e) => setNuevaContrasena(e.target.value)}
+              />
+            </div>
+            <button type="submit">Actualizar Datos</button>
+          </form>
+        </div>
+      ) : (
+        <Login />
+      )}
+    </div>
   );
 }

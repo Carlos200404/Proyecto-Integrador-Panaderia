@@ -7,8 +7,8 @@ import "notyf/notyf.min.css";
 export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
   const { carrito, setCarrito, vaciarCarrito } = useContext(CarritoContext);
   const notyf = new Notyf({
-    duration: 3000, // Duración de la alerta
-    dismissible: true, // Alerta dismissible
+    duration: 3000, 
+    dismissible: true, 
   });
 
   const aumentarCantidad = (index) => {
@@ -53,7 +53,7 @@ export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
         &times;
       </button>
 
-      <h2>Tu Carrito de Compras</h2>
+      <h2 className="text-dark">Tu Carrito de Compras</h2>
       {carrito.length === 0 ? (
         <p>El carrito está vacío</p>
       ) : (

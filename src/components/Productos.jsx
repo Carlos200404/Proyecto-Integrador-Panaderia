@@ -22,7 +22,7 @@ export default function Productos({ producto }) {
   };
 
   return (
-    <div className="col-md-4 mb-4">
+    <div className="col-sm-6 col-md-4  mb-4">
       <div className="card mx-1 producto-card">
         <div className="img-container">
           <img

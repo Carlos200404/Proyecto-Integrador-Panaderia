@@ -29,27 +29,23 @@ export default function ContactPage() {
   };
 
   const validarFormulario = () => {
-    // Validación del nombre
     if (formData.nombre.length === 0 || formData.nombre.length > 50) {
       notyf.error("El nombre debe tener entre 1 y 50 caracteres.");
       return false;
     }
 
-    // Validación del correo
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.correo)) {
       notyf.error("Correo electrónico inválido.");
       return false;
     }
 
-    // Validación del teléfono (solo números y 9 dígitos)
     const phoneRegex = /^\d{9}$/;
     if (!phoneRegex.test(formData.telefono)) {
       notyf.error("El teléfono debe tener 9 dígitos numéricos.");
       return false;
     }
 
-    // Validación del mensaje
     if (formData.mensaje.length === 0 || formData.mensaje.length > 500) {
       notyf.error("El mensaje debe tener entre 1 y 500 caracteres.");
       return false;
@@ -61,7 +57,7 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validarFormulario()) {
-      return; // Si la validación falla, no se envía el formulario
+      return; 
     }
 
     try {
@@ -80,10 +76,10 @@ export default function ContactPage() {
 
   return (
     <div className="container my-5">
-      <h2 className="text-center mb-4">Formulario de Contacto</h2>
+      <h2 className="text-center mb-4 text-dark">Formulario de Contacto</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group mb-3">
-          <label htmlFor="nombre" className="form-label fw-bold">Nombre</label>
+          <label htmlFor="nombre" className="form-label fw-bold text-dark">Nombre</label>
           <input
             type="text"
             className="form-control"
@@ -95,7 +91,7 @@ export default function ContactPage() {
           />
         </div>
         <div className="form-group mb-3">
-          <label htmlFor="correo" className="form-label fw-bold">Correo Electrónico</label>
+          <label htmlFor="correo" className="form-label fw-bold text-dark">Correo Electrónico</label>
           <input
             type="email"
             className="form-control"
@@ -107,7 +103,7 @@ export default function ContactPage() {
           />
         </div>
         <div className="form-group mb-3">
-          <label htmlFor="telefono" className="form-label fw-bold">Teléfono</label>
+          <label htmlFor="telefono" className="form-label fw-bold text-dark">Teléfono</label>
           <input
             type="tel"
             className="form-control"
@@ -119,7 +115,7 @@ export default function ContactPage() {
           />
         </div>
         <div className="form-group mb-4">
-          <label htmlFor="mensaje" className="form-label fw-bold">Mensaje</label>
+          <label htmlFor="mensaje" className="form-label fw-bold text-dark">Mensaje</label>
           <textarea
             className="form-control"
             id="mensaje"

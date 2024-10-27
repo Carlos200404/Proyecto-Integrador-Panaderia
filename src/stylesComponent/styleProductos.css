@@ -1,5 +1,6 @@
 .card {
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
     color: #6c3b2a;
     border: none;
     position: relative;
@@ -63,8 +64,50 @@ img {
     font-size: 1rem;
 }
 
-@media (max-width: 1410px) {
+/* Media queries para mejorar el responsive */
+@media (max-width: 1200px) {
+    .card {
+        max-width: 300px;
+    }
     img {
-        width: 60%;
+        height: 60%; /* Disminuir la altura en pantallas medianas */
+    }
+}
+
+@media (max-width: 992px) {
+    .card {
+        max-width: 250px;
+    }
+    img {
+        height: 55%; /* Disminuir aún más la altura en pantallas pequeñas */
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: 200px;
+    }
+    img {
+        height: 60%; 
+    }
+    .add-to-cart {
+        width: 30px;
+        height: 30px;
+    }
+    .add-to-cart svg {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        max-width: 180px;
+    }
+    img {
+        height: 60%; 
+    }
+    .categoria {
+        font-size: 0.9rem; 
     }
 }
