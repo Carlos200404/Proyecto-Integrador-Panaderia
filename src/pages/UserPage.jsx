@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 
 export default function UserPage() {
   const [primerNombre, setPrimerNombre] = useState("");
@@ -9,21 +11,30 @@ export default function UserPage() {
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [rolId] = useState(2); // Asignando por defecto el rol ID 2
+  const [rolId] = useState(2);
+
+  const notyf = new Notyf({
+    duration: 3000,
+    dismissible: true,
+    position: {
+      x: 'center',
+      y: 'top',
+    },
+  });
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const nombre = `${primerNombre} ${segundoNombre}`;
     const apellido = `${primerApellido} ${segundoApellido}`;
 
-    // Datos a enviar al backend
     const nuevoUsuario = {
       nombre,
       apellido,
       correo,
       telefono,
       password: contrasena,
-      rol: { id: rolId }, // Esto es necesario si `rol` es un objeto en el backend
+      rol: { id: rolId },
     };
 
     try {
@@ -37,10 +48,10 @@ export default function UserPage() {
         }
       );
       console.log("Usuario registrado:", respuesta.data);
-      alert("Usuario registrado exitosamente");
+      notyf.success("Usuario registrado exitosamente");
     } catch (error) {
       console.error("Error al registrar usuario:", error);
-      alert("Hubo un error al registrar el usuario");
+      notyf.error("Error al registrar el usuario");
     }
   };
 
