@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Productos from "../components/Productos";
-import Filtro from "../components/Filtro";
 import "../stylesPages/StyleProductPage.css";
 
 export default function ProductsPage() {
@@ -12,8 +11,7 @@ export default function ProductsPage() {
   const [filtroPrecio, setFiltroPrecio] = useState([1, 120]);
   const [busqueda, setBusqueda] = useState("");
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
-  const [orden, setOrden] = useState(""); // Estado para manejar el orden seleccionado
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1400);
+  const [orden, setOrden] = useState("");
 
   useEffect(() => {
     const obtenerProductosYCategorias = async () => {
@@ -33,17 +31,9 @@ export default function ProductsPage() {
     };
 
     obtenerProductosYCategorias();
-
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= 1400);
-    };
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const filtrarProductos = () => {
-    // Hacer una copia de los productos filtrados
     let productosFiltrados = [...productos]
       .filter(
         (producto) =>
@@ -57,8 +47,7 @@ export default function ProductsPage() {
         if (!categoriaSeleccionada) return true;
         return producto.categoria.nombre === categoriaSeleccionada;
       });
-  
-    // Ordenar productos según la opción seleccionada
+
     if (orden === "bajo-alto") {
       productosFiltrados = productosFiltrados.sort(
         (a, b) => a.precio - b.precio
@@ -68,50 +57,123 @@ export default function ProductsPage() {
         (a, b) => b.precio - a.precio
       );
     }
-  
+
     return productosFiltrados;
   };
-  
 
   return (
     <>
-      <h1 className="text-center my-4">Nuestros Productos</h1>
-      <div className={isWideScreen ? "container-fluid" : "container"}>
+      <div className="container-fluid">
+        <div className="row justify-content-between align-items-center mb-4">
+          {/* Botón para mostrar el filtro en pantallas pequeñas */}
+          <div className="col-auto">
+            <button
+              className="btn btn-primary d-lg-none mt-4 ms-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#filtroProductos"
+              aria-expanded="false"
+              aria-controls="filtroProductos"
+            >
+              Filtrar Productos
+            </button>
+          </div>
+
+          {/* Select para ordenar por precio */}
+          <div className="col-auto text-end">
+            <label
+              htmlFor="ordenSelect"
+              className="form-label text-dark me-2 d-inline-block"
+            >
+              Ordenar por precio:
+            </label>
+            <select
+              id="ordenSelect"
+              className="form-select ordenPrecio d-inline-block"
+              value={orden}
+              onChange={(e) => setOrden(e.target.value)}
+            >
+              <option value="">Orden por defecto</option>
+              <option value="bajo-alto">Precio: bajo a alto</option>
+              <option value="alto-bajo">Precio: alto a bajo</option>
+            </select>
+          </div>
+        </div>
+
         <div className="row">
-          <Filtro
-            busqueda={busqueda}
-            setBusqueda={setBusqueda}
-            filtroPrecio={filtroPrecio}
-            setFiltroPrecio={setFiltroPrecio}
-            precioMin={precioMin}
-            precioMax={precioMax}
-            categorias={categorias}
-            setCategoriaSeleccionada={setCategoriaSeleccionada}
-          />
+          {/* Filtro de productos */}
+          <div
+            id="filtroProductos"
+            className="col-12 col-lg-3 mb-4 collapse d-lg-block"
+          >
+            <div className="filtro p-3 ms-1 border rounded">
+              <h4 className="mb-3 text-dark">Filtrar Productos</h4>
 
-          <div className="col-md-9">
-            {/* Select para ordenar productos */}
-            <div className="mb-3 text-end">
-              <label htmlFor="ordenSelect" className="form-label">
-                Ordenar por precio:
-              </label>
-              <select
-                id="ordenSelect"
-                className="form-select"
-                value={orden}
-                onChange={(e) => setOrden(e.target.value)}
-              >
-                <option value="">Orden por defecto</option>
-                <option value="bajo-alto">Precio: bajo a alto</option>
-                <option value="alto-bajo">Precio: alto a bajo</option>
-              </select>
+              {/* Buscar por Nombre */}
+              <div className="mb-3">
+                <label htmlFor="busqueda" className="form-label text-dark">
+                  Buscar por Nombre
+                </label>
+                <input
+                  type="text"
+                  id="busqueda"
+                  className="form-control"
+                  placeholder="Buscar por nombre"
+                  value={busqueda}
+                  onChange={(e) => setBusqueda(e.target.value)}
+                />
+              </div>
+
+              {/* Filtrar por Precio */}
+              <div className="mb-3">
+                <label htmlFor="filtroPrecio" className="form-label text-dark">
+                  Precio Máximo: S/{filtroPrecio[1]}
+                </label>
+                <input
+                  type="range"
+                  className="form-range"
+                  min={precioMin}
+                  max={precioMax}
+                  value={filtroPrecio[1]}
+                  onChange={(e) =>
+                    setFiltroPrecio([
+                      filtroPrecio[0],
+                      parseFloat(e.target.value),
+                    ])
+                  }
+                />
+              </div>
+
+              {/* Filtrar por Categoría */}
+              <div className="mb-3">
+                <label htmlFor="categoria" className="form-label text-dark">
+                  Categoría
+                </label>
+                <select
+                  id="categoria"
+                  className="form-select"
+                  value={categoriaSeleccionada || ""}
+                  onChange={(e) =>
+                    setCategoriaSeleccionada(e.target.value || null)
+                  }
+                >
+                  <option value="">Sin categoria</option>
+                  {categorias.map((categoria) => (
+                    <option key={categoria.id} value={categoria.nombre}>
+                      {categoria.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
+          </div>
 
-            {/* Mostrar la cantidad de productos */}
-            <p>Mostrando {filtrarProductos().length} resultados</p>
+          {/* Listado de productos filtrados */}
+          <div className="col-12 col-lg-9">
+            <p className="fw-bold ms-3">Mostrando {filtrarProductos().length} resultados</p>
 
             {filtrarProductos().length > 0 ? (
-              <div className="row">
+              <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {filtrarProductos().map((producto) => (
                   <Productos key={producto.id} producto={producto} />
                 ))}

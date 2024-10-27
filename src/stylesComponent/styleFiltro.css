@@ -1,79 +1,32 @@
-/* Aplica los estilos solo dentro del contenedor del filtro */
-.filtro-container .text-filtrar {
-    color: #6c3b2a; 
-    font-weight: bold !important;
-    margin-bottom: 10px;
-}
+/* styleFiltro.css */
 
-.filtro-container .form-control.filtro-input {
-    width: 70%;
-    margin: auto;
-    border: none;
-    border-bottom: 1px solid #6c3b2a;
-    box-shadow: none;
-    border-radius: 0;
-}
-
-.filtro-container input[type="range"].filtro-range {
-    width: 50%;
-    margin: 10px auto;
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: #6c3b2a; 
-    height: 3px;
-    outline: none;
-}
-
-.filtro-container input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: #6c3b2a; 
-    cursor: pointer;
-}
-
-.filtro-container input[type="range"]::-moz-range-thumb {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: #6c3b2a;
-    cursor: pointer;
-}
-
-.filtro-container .filtro-precios p {
-    font-size: 14px;
-    color: #6c3b2a; 
-}
-
-.filtro-container button {
-    background-color: #4a3929; 
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    text-transform: uppercase;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.filtro-container button:hover {
-    background-color: #5a4832;
-}
-.filtro-container .categoria-list {
-    list-style-type: none; 
-    padding: 0;
-    text-align: left;
-}
-
-.filtro-container .categoria-list li {
-    margin-bottom: 10px; 
-    text-align: center;
-}
-
-.filtro-container .categoria-header {
-    color: #6c3b2a;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-}
+/* Contenedor principal del filtro */
+.filtro-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+  }
+  
+  /* Botón que solo se muestra en pantallas pequeñas */
+  .filtro-boton-toggle {
+    display: none;
+  }
+  
+  /* Mostrar el botón en pantallas menores a 1225px */
+  @media (max-width: 1225px) {
+    .filtro-boton-toggle {
+      display: block;
+    }
+    /* Ocultar el filtro en pantallas pequeñas cuando el botón está visible */
+    .filtro-content {
+      display: none;
+    }
+  }
+  
+  /* Mostrar el filtro directamente en pantallas grandes */
+  @media (min-width: 1225px) {
+    .filtro-content {
+      display: block;
+    }
+  }
+  
