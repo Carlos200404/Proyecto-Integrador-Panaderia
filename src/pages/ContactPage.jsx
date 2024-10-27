@@ -12,7 +12,7 @@ export default function ContactPage() {
     mensaje: "",
   });
 
-const notyf = new Notyf({
+  const notyf = new Notyf({
     position: {
       x: 'center',
       y: 'top'  
@@ -28,18 +28,52 @@ const notyf = new Notyf({
     }));
   };
 
+  const validarFormulario = () => {
+    // Validación del nombre
+    if (formData.nombre.length === 0 || formData.nombre.length > 50) {
+      notyf.error("El nombre debe tener entre 1 y 50 caracteres.");
+      return false;
+    }
+
+    // Validación del correo
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.correo)) {
+      notyf.error("Correo electrónico inválido.");
+      return false;
+    }
+
+    // Validación del teléfono (solo números y 9 dígitos)
+    const phoneRegex = /^\d{9}$/;
+    if (!phoneRegex.test(formData.telefono)) {
+      notyf.error("El teléfono debe tener 9 dígitos numéricos.");
+      return false;
+    }
+
+    // Validación del mensaje
+    if (formData.mensaje.length === 0 || formData.mensaje.length > 500) {
+      notyf.error("El mensaje debe tener entre 1 y 500 caracteres.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validarFormulario()) {
+      return; // Si la validación falla, no se envía el formulario
+    }
+
     try {
       const response = await axios.post("http://localhost:8081/api/contacto/enviar", formData);
       if (response.status === 201) {
-        notyf.success("Formulario enviado con éxito"); // Notificación de éxito
+        notyf.success("Formulario enviado con éxito"); 
         setFormData({ nombre: "", correo: "", telefono: "", mensaje: "" });
       } else {
-        notyf.error("Error al enviar el formulario"); // Notificación de error
+        notyf.error("Error al enviar el formulario"); 
       }
     } catch (error) {
-      notyf.error("Error al enviar el formulario"); // Notificación de error
+      notyf.error("Error al enviar el formulario"); 
       console.error("Error:", error);
     }
   };
