@@ -3,6 +3,7 @@
 }
 .App {
   text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 html, body {
   overflow-x: hidden;

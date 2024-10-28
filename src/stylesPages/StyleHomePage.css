@@ -1,115 +1,115 @@
-:root {
-    --ColorPrincipal: #ca7b42;
-}
-h1{
-    color: #6d4c41;
-}
-
-.text-destacado {
-    color: var(--ColorPrincipal) !important;
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
 }
 
-.container-historia, .container-historia-reverse {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 50px;
+.about-section {
+    background: url(https://artesaniadelhorno.com/wp-content/uploads/2022/08/quienes-somos-1.png) no-repeat right;
+    background-size: 55%;
+    background-color: #fdfdfd;
+    overflow: hidden;
+    padding: 100px 0;
+}
+
+.inner-container {
+    width: 55%;
+    float: left;
+    background-color: #fdfdfd;
+    padding: 50px;
+}
+
+.inner-container h1 {
+    margin-bottom: 30px;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+h2 {
+    font-weight: 900 !important;
+    font-size: 30px;
+}
+
+.text {
+    font-size: 17px;
+    color: #545454;
+    line-height: 30px;
+    text-align: justify;
+    margin-bottom: 40px;
+}
+
+.custom-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     padding: 20px;
+    flex: 1;
+    max-width: 300px;
+    margin: 10px auto;
 }
 
-/* Cuadro de fondo */
-.cuadro-fondo, .cuadro-fondo-reverse {
+.titulo-card {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.card-texto {
+    font-size: 17px;
+    color: #545454;
+    line-height: 1.6;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 40%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.responsive-iframe {
     position: absolute;
-    background-color: #f7f0ec;
-    width: 50%;
-    height: 80%;
-    z-index: 1;
-    border-radius: 10px;
-}
-
-/* Inversion de fondo en reverse */
-.cuadro-fondo-reverse {
-    right: 0;
-}
-
-/* Imagen con ajuste */
-.img-historia {
-    z-index: 2;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 550px;
-    height: auto;
-    border-radius: 10px;
+    height: 100%;
+    border: none;
 }
 
-/* Texto alineado */
-.texto-historia {
-    position: relative;
-    z-index: 3;
-    padding: 20px;
-    color: #6d4c41;
-    width: 100%;
-    max-width: 550px;
-    text-align: left;
-    font-size: 1.1rem;
-    line-height: 1.8;
-}
-
-/* Títulos */
-h3 {
-    color: #6d4c41;
-    font-weight: bold;
-}
-
-/* Ajustes responsive */
-@media (max-width: 1200px) {
-    .cuadro-fondo, .cuadro-fondo-reverse {
-        width: 60%;
+@media screen and (max-width: 1200px) {
+    .inner-container {
+        padding: 40px;
     }
 }
 
-@media (max-width: 992px) {
-    .container-historia, .container-historia-reverse {
-        flex-direction: column;
+@media screen and (max-width: 1000px) {
+    .about-section {
+        background-size: 100%;
+        padding: 50px 20px;
     }
-    
-    .cuadro-fondo, .cuadro-fondo-reverse {
+
+    .inner-container {
         width: 100%;
-        height: 50%;
-    }
-
-    .img-historia, .texto-historia {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .texto-historia {
-        text-align: center;
     }
 }
 
-@media (max-width: 768px) {
-    .cuadro-fondo, .cuadro-fondo-reverse {
-        height: 40%;
-    }
-
-    .texto-historia {
-        font-size: 1rem;
-    }
-
-    .texto-historia h3 {
-        font-size: 1.5rem;
+@media screen and (max-width: 768px) {
+    .custom-card {
+        max-width: 70% !important;
     }
 }
 
-@media (max-width: 576px) {
-    .texto-historia {
-        font-size: 0.9rem;
-        padding: 10px;
+@media screen and (max-width: 600px) {
+    .about-section {
+        padding: 0;
     }
 
-    .texto-historia h3 {
-        font-size: 1.2rem;
+    .inner-container {
+        padding: 30px;
     }
 }

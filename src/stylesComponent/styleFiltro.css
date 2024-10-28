@@ -1,6 +1,8 @@
-/* styleFiltro.css */
-
-/* Contenedor principal del filtro */
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
 .filtro-container {
     padding: 20px;
     background-color: #f8f9fa;

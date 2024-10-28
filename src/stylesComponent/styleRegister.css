@@ -1,4 +1,8 @@
-/* Wrapper principal para centrar el contenido */
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
 .register-wrapper {
     height: 100vh;
   }

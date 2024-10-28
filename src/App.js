@@ -11,7 +11,7 @@ import ContactPage from "./pages/ContactPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Register from "./components/Register";
 import UserPage from "./pages/UserPage";
-import { CarritoProvider } from "./components/CarritoContext";
+import { CarritoProvider } from "./context/CarritoContext";
 
 function App() {
   const location = useLocation();

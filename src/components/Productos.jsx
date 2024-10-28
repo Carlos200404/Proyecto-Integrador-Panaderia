@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import "../stylesComponent/styleProductos.css";
-import { CarritoContext } from "./CarritoContext";
+import { CarritoContext } from "../context/CarritoContext";
 
 export default function Productos({ producto }) {
   const { agregarProducto } = useContext(CarritoContext);

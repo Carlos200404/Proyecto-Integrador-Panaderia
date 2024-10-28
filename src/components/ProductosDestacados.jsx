@@ -6,7 +6,7 @@ export default function ProductosDestacados() {
   return (
     <>
       <h1 className="text-center my-5">
-        Nuestros <span className="text-destacado">Productos Destacados</span> !
+        Nuestros Productos Destacados
       </h1>
 
      

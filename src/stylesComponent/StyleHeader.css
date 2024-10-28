@@ -3,7 +3,11 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
 img.logo {
     width: 150px !important;
     height: 60px !important;

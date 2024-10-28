@@ -68,28 +68,27 @@ export default function ProductsPage() {
           {/* Botón para mostrar el filtro en pantallas pequeñas */}
           <div className="col-auto">
             <button
-              className="btn btn-filtrar d-lg-none mt-4 ms-2"
+              className="btn btn-filtrar mt-4 ms-2"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#filtroProductos"
               aria-expanded="false"
               aria-controls="filtroProductos"
-            >
-              Filtrar Productos
+            >Filtrar
             </button>
           </div>
 
           {/* Select para ordenar por precio */}
-          <div className="col-auto text-end">
+          <div className="col-auto text-end me-4">
             <label
               htmlFor="ordenSelect"
-              className="form-label text-dark me-2 d-inline-block"
+              className="form-label text-dark d-inline-block ordenar"
             >
               Ordenar por precio:
             </label>
             <select
               id="ordenSelect"
-              className="form-select ordenPrecio d-inline-block"
+              className="form-select ordenPrecio d-inline-block ordenar"
               value={orden}
               onChange={(e) => setOrden(e.target.value)}
             >
@@ -170,7 +169,9 @@ export default function ProductsPage() {
 
           {/* Listado de productos filtrados */}
           <div className="col-12 col-lg-9">
-            <p className="fw-bold ms-3">Mostrando {filtrarProductos().length} resultados</p>
+            <p className="fw-bold ms-3">
+              Mostrando {filtrarProductos().length} resultados
+            </p>
 
             {filtrarProductos().length > 0 ? (
               <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -179,7 +180,10 @@ export default function ProductsPage() {
                 ))}
               </div>
             ) : (
-              <p>No hay productos disponibles dentro del rango de precios seleccionado.</p>
+              <p>
+                No hay productos disponibles dentro del rango de precios
+                seleccionado.
+              </p>
             )}
           </div>
         </div>

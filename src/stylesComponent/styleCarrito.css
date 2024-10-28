@@ -10,7 +10,7 @@ body::-webkit-scrollbar {
 
 .carrito-panel {
     position: fixed;
-    right: -100%;
+    right: -120%;
     top: 0;
     width: 400px;
     height: 100%;

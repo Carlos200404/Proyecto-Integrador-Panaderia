@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "../stylesComponent/styleCarrito.css";
-import { CarritoContext } from "./CarritoContext";
+import { CarritoContext } from "../context/CarritoContext";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 

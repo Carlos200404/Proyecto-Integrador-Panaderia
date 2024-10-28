@@ -1,33 +1,79 @@
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
 .btn-filtrar {
-    background-color: #C07648; /* Color de fondo */
-    color: #fff !important; /* Color del texto */
-    border: none; /* Opcional: quita el borde */
+    background-color: #C07648; 
+    color: #fff !important; 
+    border: none;
+    margin-top: 27.5px !important;
   }
   
   .btn-filtrar:hover {
-    background-color: #a6653c !important; /* Color más oscuro en hover */
+    background-color: #a6653c !important; 
   }
   
   .btn-filtrar:focus, 
   .btn-filtrar:active {
-    background-color: #C07648 !important; /* Mantén el color al hacer clic */
+    background-color: #C07648 !important; 
     color: #fff !important;
-    box-shadow: none; /* Opcional: desactiva el efecto de sombra */
+    box-shadow: none; 
   }
-  /* Estilos CSS */
-/* StyleProductPage.css */
+ #ordenSelect{
+    width: 60%;
+ }
 
-/* Centrado de la tarjeta solo en las columnas de productos */
 .col-lg-9 .row .col-sm-6,
 .col-lg-9 .row .col-md-4,
 .col-lg-9 .row .col-lg-3 {
     display: flex;
-    justify-content: center; /* Centra las tarjetas dentro de las columnas */
-    align-items: center; /* Centra verticalmente en caso de ser necesario */
+    justify-content: center; 
+    align-items: center; 
 }
 
 .producto-card {
-    max-width: 280px; /* Ajusta el tamaño máximo de las tarjetas */
-    margin: auto; /* Centra la tarjeta dentro de la columna */
-    text-align: center; /* Centra el contenido de la tarjeta */
+    max-width: 280px;
+    margin: auto; 
+    text-align: center; 
+}
+@media (min-width: 991px) {
+    .btn-filtrar {
+        display: none !important;
+    }
+}
+@media (max-width: 1100px) and (min-width: 768px) {
+    .label-select-container {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .ordenPrecio, .btn-filtrar {
+        width: 100%; /* Asegura que el select y el botón ocupen todo el ancho disponible */
+        max-width: 200px; /* Máximo ancho para el select */
+    }
+    .btn-filtrar {
+        margin-top: 10px;
+    }
+}
+
+/* Ajuste para pantallas pequeñas (menores a 768px) */
+@media (max-width: 767px) {
+    col-auto text-end me-4{
+        margin: 0 !important;
+    }
+    .label-select-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn-filtrar {
+        margin-top: 10px; 
+        font-size:  0.85rem !important ;
+    }
+    .ordenar {
+        font-size: 0.85rem !important; 
+        margin: 0 !important;
+    }
+
+    
 }
