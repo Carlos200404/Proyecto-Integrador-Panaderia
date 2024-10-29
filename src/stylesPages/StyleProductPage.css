@@ -48,15 +48,14 @@ body {
         align-items: flex-end;
     }
     .ordenPrecio, .btn-filtrar {
-        width: 100%; /* Asegura que el select y el botón ocupen todo el ancho disponible */
-        max-width: 200px; /* Máximo ancho para el select */
+        width: 100%;
+        max-width: 200px; 
     }
     .btn-filtrar {
         margin-top: 10px;
     }
 }
 
-/* Ajuste para pantallas pequeñas (menores a 768px) */
 @media (max-width: 767px) {
     col-auto text-end me-4{
         margin: 0 !important;

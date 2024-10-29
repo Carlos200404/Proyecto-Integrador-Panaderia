@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Notyf } from "notyf";
+import { useNavigate } from "react-router-dom";
 import "notyf/notyf.min.css";
 import "../stylesComponent/styleProductos.css";
 import { CarritoContext } from "../context/CarritoContext";
@@ -10,6 +11,12 @@ export default function Productos({ producto }) {
     duration: 3000,
     dismissible: true,
   });
+
+  const navegar = useNavigate();
+
+  const redigirADetalles= () =>{
+    navegar(`/descripcionProducto/${producto.id}`);
+  };
 
   const agregarAlCarrito = () => {
     const resultado = agregarProducto(producto);
@@ -29,8 +36,9 @@ export default function Productos({ producto }) {
             src={producto.imageUrl || "default.jpg"}
             alt={producto.nombre}
             className="card-img-top"
+            onClick={redigirADetalles}
           />
-          <div className="add-to-cart" onClick={agregarAlCarrito}>
+          <div className="add-to-cart" onClick={agregarAlCarrito} style={{ cursor: "pointer" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="10"
@@ -44,11 +52,11 @@ export default function Productos({ producto }) {
           </div>
         </div>
         <div className="card-body">
-          <p className="text-center my-0 categoria fw-bold">
+          <p className="text-center my-0 categoria fw-bold" onClick={redigirADetalles} style={{ cursor: "pointer" }}>
             {producto.categoria.nombre}
           </p>
-          <h5 className="card-title text-center">{producto.nombre}</h5>
-          <p className="card-text text-center">Precio: S/ {producto.precio}</p>
+          <h5 className="card-title text-center" onClick={redigirADetalles} style={{ cursor: "pointer" }}>{producto.nombre}</h5>
+          <p className="card-text text-center" onClick={redigirADetalles} style={{ cursor: "pointer" }}>Precio: S/ {producto.precio}</p>
         </div>
       </div>
     </div>

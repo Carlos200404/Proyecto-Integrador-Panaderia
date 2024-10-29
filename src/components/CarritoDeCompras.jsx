@@ -32,7 +32,6 @@ export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
     if (producto.cantidad > 1) {
       producto.cantidad -= 1;
     } else {
-      // Eliminar producto si la cantidad llega a 0
       nuevoCarrito.splice(index, 1);
     }
 

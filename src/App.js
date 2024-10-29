@@ -11,6 +11,9 @@ import ContactPage from "./pages/ContactPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Register from "./components/Register";
 import UserPage from "./pages/UserPage";
+import DetailsPage from "./pages/DetailsPage";
+
+
 import { CarritoProvider } from "./context/CarritoContext";
 
 function App() {
@@ -19,15 +22,14 @@ function App() {
   const noHeaderNoFooterRoutes = ["/usuario"];
 
   useEffect(() => {
-    console.log("Current path:", location.pathname);
-
-    // Oculta Header y Footer en "/usuario" o en cualquier ruta desconocida
-    if (noHeaderNoFooterRoutes.includes(location.pathname) || !["/", "/productos", "/contacto", "/usuario"].includes(location.pathname)) {
-      setHideHeaderFooter(true);
-    } else {
-      setHideHeaderFooter(false);
-    }
+    const noHeaderNoFooterRoutes = ["/usuario"];
+    const allowedRoutesWithHeaderFooter = ["/", "/productos", "/contacto", "/usuario", "/descripcionProducto"];
+  
+    const isAllowedRoute = allowedRoutesWithHeaderFooter.some(route => location.pathname.startsWith(route));
+  
+    setHideHeaderFooter(!isAllowedRoute);
   }, [location.pathname]);
+  
 
   return (
     <CarritoProvider>
@@ -38,6 +40,7 @@ function App() {
         <Route path="/contacto" element={<ContactPage />} />
         <Route path="/usuario" element={<UserPage />} />
         <Route path="/registro" element={<Register/>}/>
+        <Route path="/descripcionProducto/:id" element={<DetailsPage/>}/>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}

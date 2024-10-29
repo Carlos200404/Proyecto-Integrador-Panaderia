@@ -12,6 +12,8 @@ export default function ProductsPage() {
   const [busqueda, setBusqueda] = useState("");
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
   const [orden, setOrden] = useState("");
+  const [paginaActual, setPaginaActual] = useState(1);
+  const productosPorPagina = 9;
 
   useEffect(() => {
     const obtenerProductosYCategorias = async () => {
@@ -61,6 +63,21 @@ export default function ProductsPage() {
     return productosFiltrados;
   };
 
+  const productosFiltrados = filtrarProductos();
+  const indiceInicio = (paginaActual - 1) * productosPorPagina;
+  const productosAMostrar = productosFiltrados.slice(
+    indiceInicio,
+    indiceInicio + productosPorPagina
+  );
+
+  const cambiarPagina = (pagina) => {
+    setPaginaActual(pagina);
+  };
+
+  const totalPaginas = Math.ceil(
+    productosFiltrados.length / productosPorPagina
+  );
+
   return (
     <>
       <div className="container-fluid">
@@ -74,7 +91,8 @@ export default function ProductsPage() {
               data-bs-target="#filtroProductos"
               aria-expanded="false"
               aria-controls="filtroProductos"
-            >Filtrar
+            >
+              Filtrar
             </button>
           </div>
 
@@ -167,15 +185,16 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          {/* Listado de productos filtrados */}
+          {/* Listado de productos filtrados con paginación */}
           <div className="col-12 col-lg-9">
             <p className="fw-bold ms-3">
-              Mostrando {filtrarProductos().length} resultados
+              Mostrando {productosAMostrar.length} de{" "}
+              {productosFiltrados.length} productos
             </p>
 
-            {filtrarProductos().length > 0 ? (
+            {productosAMostrar.length > 0 ? (
               <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {filtrarProductos().map((producto) => (
+                {productosAMostrar.map((producto) => (
                   <Productos key={producto.id} producto={producto} />
                 ))}
               </div>
@@ -185,6 +204,21 @@ export default function ProductsPage() {
                 seleccionado.
               </p>
             )}
+
+            {/* Controles de paginación */}
+            <div className="pagination mt-4 mx-auto">
+              {Array.from({ length: totalPaginas }, (_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => cambiarPagina(index + 1)}
+                  className={`btn btn-sm mx-1 ${
+                    paginaActual === index + 1 ? "btn-primary" : "btn-secondary"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
