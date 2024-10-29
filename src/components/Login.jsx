@@ -1,58 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
+import React from "react";
+import { Link } from "react-router-dom";
 import "../stylesComponent/styleLogin.css";
+import { useManejoSesion } from "../hooks/useManejoSesion"; 
 
 export default function Login() {
-  const [correo, setCorreo] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
-  const notyf = new Notyf({
-    position: { x: "center", y: "top" },
-    duration: 3000,
-  });
-
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const respuestaLogin = await axios.post("http://localhost:8081/api/auth/login", {
-        correo,
-        password,
-      });
-  
-      const { token, nombre, apellido, correo: email, telefono } = respuestaLogin.data;
-  
-      localStorage.setItem("token", token);
-      localStorage.setItem("nombre", nombre);
-      localStorage.setItem("apellido", apellido);
-      localStorage.setItem("correo", email);
-      localStorage.setItem("telefono", telefono);
-  
-      notyf.success("Inicio de sesión exitoso");
-  
-      setTimeout(() => {
-        navigate("/usuario");
-        window.location.reload(); 
-      }, 2000);
-  
-    } catch (error) {
-      notyf.error("Correo o contraseña incorrectos");
-      console.error("Error al iniciar sesión:", error);
-    }
-  };
-  
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setTimeout(() => {
-        navigate("/usuario");
-      }, 2000);
-    }
-  }, [isLoggedIn, navigate]);
+  const { correo, password, setCorreo, setPassword, handleSubmit } = useManejoSesion();
 
   return (
     <div className="login-wrapper d-flex align-items-center justify-content-center">

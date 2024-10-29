@@ -1,32 +1,9 @@
-import React, { useContext } from "react";
-import { Notyf } from "notyf";
-import { useNavigate } from "react-router-dom";
-import "notyf/notyf.min.css";
+import React from "react";
 import "../stylesComponent/styleProductos.css";
-import { CarritoContext } from "../context/CarritoContext";
+import { useProductoActions } from "../hooks/useProducto";
 
 export default function Productos({ producto }) {
-  const { agregarProducto } = useContext(CarritoContext);
-  const notyf = new Notyf({
-    duration: 3000,
-    dismissible: true,
-  });
-
-  const navegar = useNavigate();
-
-  const redigirADetalles= () =>{
-    navegar(`/descripcionProducto/${producto.id}`);
-  };
-
-  const agregarAlCarrito = () => {
-    const resultado = agregarProducto(producto);
-
-    if (resultado.success) {
-      notyf.success(resultado.message);
-    } else {
-      notyf.error(resultado.message);
-    }
-  };
+  const { redirigirADetalles, agregarAlCarrito } = useProductoActions(producto);
 
   return (
     <div className="col-sm-6 col-md-4 mb-4">
@@ -36,7 +13,7 @@ export default function Productos({ producto }) {
             src={producto.imageUrl || "default.jpg"}
             alt={producto.nombre}
             className="card-img-top"
-            onClick={redigirADetalles}
+            onClick={redirigirADetalles}
           />
           <div className="add-to-cart" onClick={agregarAlCarrito} style={{ cursor: "pointer" }}>
             <svg
@@ -52,11 +29,11 @@ export default function Productos({ producto }) {
           </div>
         </div>
         <div className="card-body">
-          <p className="text-center my-0 categoria fw-bold" onClick={redigirADetalles} style={{ cursor: "pointer" }}>
+          <p className="text-center my-0 categoria fw-bold" onClick={redirigirADetalles} style={{ cursor: "pointer" }}>
             {producto.categoria.nombre}
           </p>
-          <h5 className="card-title text-center" onClick={redigirADetalles} style={{ cursor: "pointer" }}>{producto.nombre}</h5>
-          <p className="card-text text-center" onClick={redigirADetalles} style={{ cursor: "pointer" }}>Precio: S/ {producto.precio}</p>
+          <h5 className="card-title text-center" onClick={redirigirADetalles} style={{ cursor: "pointer" }}>{producto.nombre}</h5>
+          <p className="card-text text-center" onClick={redirigirADetalles} style={{ cursor: "pointer" }}>Precio: S/ {producto.precio}</p>
         </div>
       </div>
     </div>

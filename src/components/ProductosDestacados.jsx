@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
-import productoDestacadoService from "../service/ProductosService";
+import React from "react";
+import useProductosDestacados from "../hooks/useProductosDestacados";
 import "../stylesComponent/styleProductosDestacados.css";
-import Productos from "./Productos"; 
+import Productos from "./Productos";
 
 export default function ProductosDestacados() {
-    const [productosDestacados, setProductosDestacados] = useState([]);
-
-    useEffect(() => {
-        productoDestacadoService.obtenerProductosDestacados() 
-            .then(response => {
-                setProductosDestacados(response.data);
-            })
-            .catch(error => {
-                console.error("Error al obtener los productos más vendidos:", error);
-            });
-    }, []);
+    const productosDestacados = useProductosDestacados();
 
     return (
         <div className="container-fluid">

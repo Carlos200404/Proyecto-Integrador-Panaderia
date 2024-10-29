@@ -10,8 +10,9 @@ const obtenerProductosDestacados = () => {
     return axios.get(`${API_URL}/masVendidos`);
 };
 
+const API_URL2 = 'http://localhost:8081/api/productos/obtenerPorId'
 const obtenerProductoPorId = (id) => {
-    return axios.get(`${API_URL}/${id}`);
+    return axios.get(`${API_URL2}/${id}`);
 };
 
 export default {

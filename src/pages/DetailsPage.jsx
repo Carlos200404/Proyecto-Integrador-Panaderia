@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import "../stylesPages/DetailsPage.css";
 import { CarritoContext } from "../context/CarritoContext";
+import ProductosService from "../service/ProductosService"; 
 
 export default function DetailsPage() {
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [cantidad, setCantidad] = useState(1); // Estado para la cantidad
+  const [cantidad, setCantidad] = useState(1);
 
   const { agregarProducto } = useContext(CarritoContext);
   const notyf = new Notyf({
@@ -18,7 +18,6 @@ export default function DetailsPage() {
     dismissible: true,
   });
 
-  // Función para manejar el botón de "Añadir al Carrito"
   const agregarAlCarrito = () => {
     const resultado = agregarProducto({ ...producto, cantidad });
 
@@ -29,7 +28,6 @@ export default function DetailsPage() {
     }
   };
 
-  // Incrementar la cantidad
   const incrementarCantidad = () => {
     if (cantidad < producto.stock) {
       setCantidad(cantidad + 1);
@@ -38,7 +36,6 @@ export default function DetailsPage() {
     }
   };
 
-  // Disminuir la cantidad
   const disminuirCantidad = () => {
     if (cantidad > 1) {
       setCantidad(cantidad - 1);
@@ -48,9 +45,7 @@ export default function DetailsPage() {
   useEffect(() => {
     const obtenerDetallesProducto = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8081/api/productos/obtenerPorId/${id}`
-        );
+        const response = await ProductosService.obtenerProductoPorId(id); 
         setProducto(response.data);
       } catch (error) {
         console.error("Error al obtener los detalles del producto:", error);

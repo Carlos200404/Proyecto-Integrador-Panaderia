@@ -1,8 +1,8 @@
 import { useState } from "react";
-import logo from "../images/logo.png";
+import logo from "../../assets/images/logo.png";
 import { Link, useNavigate} from "react-router-dom";
-import "../stylesComponent/StyleHeader.css";
-import CarritoDeCompras from "./CarritoDeCompras";
+import "../../stylesComponent/StyleHeader.css";
+import CarritoDeCompras from "../CarritoDeCompras";
 
 export default function Header() {
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
