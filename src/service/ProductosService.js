@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8081/api/productos';
-
+// http://localhost:8081/api/productos/listarProductos
 const obtenerTodosLosProductos = () => {
     return axios.get(`${API_URL}/listarProductos`);
 };
