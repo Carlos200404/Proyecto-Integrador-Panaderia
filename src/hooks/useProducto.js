@@ -16,8 +16,8 @@ export const useProductoActions = (producto) => {
     navigate(`/descripcionProducto/${producto.id}`);
   };
 
-  const agregarAlCarrito = () => {
-    const resultado = agregarProducto(producto);
+  const agregarAlCarrito = (cantidad = 1) => {
+    const resultado = agregarProducto({ ...producto, cantidad });
 
     if (resultado.success) {
       notyf.success(resultado.message);

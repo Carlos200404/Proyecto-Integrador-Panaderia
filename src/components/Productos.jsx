@@ -15,7 +15,11 @@ export default function Productos({ producto }) {
             className="card-img-top"
             onClick={redirigirADetalles}
           />
-          <div className="add-to-cart" onClick={agregarAlCarrito} style={{ cursor: "pointer" }}>
+          <div
+            className="add-to-cart"
+            onClick={() => agregarAlCarrito(1)} 
+            style={{ cursor: "pointer" }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="10"
@@ -29,11 +33,27 @@ export default function Productos({ producto }) {
           </div>
         </div>
         <div className="card-body">
-          <p className="text-center my-0 categoria fw-bold" onClick={redirigirADetalles} style={{ cursor: "pointer" }}>
+          <p
+            className="text-center my-0 categoria fw-bold"
+            onClick={redirigirADetalles}
+            style={{ cursor: "pointer" }}
+          >
             {producto.categoria.nombre}
           </p>
-          <h5 className="card-title text-center" onClick={redirigirADetalles} style={{ cursor: "pointer" }}>{producto.nombre}</h5>
-          <p className="card-text text-center" onClick={redirigirADetalles} style={{ cursor: "pointer" }}>Precio: S/ {producto.precio}</p>
+          <h5
+            className="card-title text-center"
+            onClick={redirigirADetalles}
+            style={{ cursor: "pointer" }}
+          >
+            {producto.nombre}
+          </h5>
+          <p
+            className="card-text text-center"
+            onClick={redirigirADetalles}
+            style={{ cursor: "pointer" }}
+          >
+            Precio: S/ {producto.precio}
+          </p>
         </div>
       </div>
     </div>

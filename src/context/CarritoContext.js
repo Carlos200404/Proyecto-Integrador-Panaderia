@@ -12,18 +12,20 @@ export const CarritoProvider = ({ children }) => {
 
   const agregarProducto = (producto) => {
     const nuevoCarrito = [...carrito];
-    const productoExistente = nuevoCarrito.find((item) => item.id === producto.id);
+    const productoExistente = nuevoCarrito.find(
+      (item) => item.id === producto.id
+    );
 
     if (productoExistente) {
-      if (productoExistente.cantidad + 1 > producto.stock) {
+      if (productoExistente.cantidad + producto.cantidad > producto.stock) {
         return { success: false, message: "No hay suficiente stock disponible." };
       }
-      productoExistente.cantidad += 1;
+      productoExistente.cantidad += producto.cantidad;
     } else {
-      if (producto.stock < 1) {
+      if (producto.stock < producto.cantidad) {
         return { success: false, message: "Producto agotado." };
       }
-      nuevoCarrito.push({ ...producto, cantidad: 1 });
+      nuevoCarrito.push(producto);
     }
 
     setCarrito(nuevoCarrito);
@@ -37,7 +39,9 @@ export const CarritoProvider = ({ children }) => {
   };
 
   return (
-    <CarritoContext.Provider value={{ carrito, setCarrito, agregarProducto, vaciarCarrito }}>
+    <CarritoContext.Provider
+      value={{ carrito, setCarrito, agregarProducto, vaciarCarrito }}
+    >
       {children}
     </CarritoContext.Provider>
   );

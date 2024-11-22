@@ -4,7 +4,7 @@ import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import "../stylesPages/DetailsPage.css";
 import { CarritoContext } from "../context/CarritoContext";
-import ProductosService from "../service/ProductosService"; 
+import ProductosService from "../service/ProductosService";
 
 export default function DetailsPage() {
   const { id } = useParams();
@@ -45,7 +45,7 @@ export default function DetailsPage() {
   useEffect(() => {
     const obtenerDetallesProducto = async () => {
       try {
-        const response = await ProductosService.obtenerProductoPorId(id); 
+        const response = await ProductosService.obtenerProductoPorId(id);
         setProducto(response.data);
       } catch (error) {
         console.error("Error al obtener los detalles del producto:", error);
@@ -79,14 +79,21 @@ export default function DetailsPage() {
           <h2 className="text-dark">{producto.nombre}</h2>
           <p className="text-dark descripcion">{producto.descripcion}</p>
           <p className="text-dark precio">Precio: S/ {producto.precio}</p>
-          
+
           <div className="cantidad-control">
-            <button onClick={disminuirCantidad} className="btn-cantidad">-</button>
+            <button onClick={disminuirCantidad} className="btn-cantidad">
+              -
+            </button>
             <span>{cantidad}</span>
-            <button onClick={incrementarCantidad} className="btn-cantidad">+</button>
+            <button onClick={incrementarCantidad} className="btn-cantidad">
+              +
+            </button>
           </div>
 
-          <button onClick={agregarAlCarrito} className="btn-agregar-carrito mt-3">
+          <button
+            onClick={agregarAlCarrito}
+            className="btn-agregar-carrito mt-3"
+          >
             Añadir al Carrito
           </button>
         </div>
