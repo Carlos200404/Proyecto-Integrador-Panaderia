@@ -3,7 +3,7 @@ import "../stylesComponent/styleCarrito.css";
 import { CarritoContext } from "../context/CarritoContext";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-
+import { Link } from "react-router-dom";
 export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
   const { carrito, setCarrito, vaciarCarrito } = useContext(CarritoContext);
   const notyf = new Notyf({
@@ -79,7 +79,9 @@ export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
           <div className="total-carrito">
             <h5 className="fw-bold">Total: S/ {calcularTotal().toFixed(2)}</h5>
           </div>
+          <Link to={"/carrito"}>
           <button className="btn-pagina-carrito my-3">Ir a Pagar</button>
+          </Link>
           <button className="btn-vaciar-carrito" onClick={vaciarCarrito}>
             Vaciar Carrito
           </button>

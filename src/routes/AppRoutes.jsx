@@ -8,8 +8,8 @@ import NotFoundPage from "../pages/NotFoundPage";
 import Register from "../components/Register";
 import UserPage from "../pages/UserPage";
 import DetailsPage from "../pages/DetailsPage";
-
-export const validRoutes = ["/", "/productos", "/contacto", "/usuario", "/registro", "/descripcionProducto/:id"];
+import CartPage from "../pages/CartPage";
+export const validRoutes = ["/", "/productos", "/contacto", "/usuario", "/registro", "/descripcionProducto/:id", "/carrito"];
 
 export default function AppRoutes() {
   return (
@@ -20,6 +20,7 @@ export default function AppRoutes() {
       <Route path="/usuario" element={<UserPage />} />
       <Route path="/registro" element={<Register />} />
       <Route path="/descripcionProducto/:id" element={<DetailsPage />} />
+      <Route path="/carrito" element={<CartPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

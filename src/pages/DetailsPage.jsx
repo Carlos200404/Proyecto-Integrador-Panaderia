@@ -68,31 +68,31 @@ export default function DetailsPage() {
     <div className="container details-container">
       <h2 className="text-dark mx-5 my-5">Detalles del Producto</h2>
       <div className="row">
-        <div className="col-6">
+        <div className="col-sm-12 col-md-6">
           <img
             src={producto.imageUrl}
             alt={producto.nombre}
             className="producto-imagen"
           />
         </div>
-        <div className="col-6">
+        <div className="col-sm-12 col-md-6">
           <h2 className="text-dark">{producto.nombre}</h2>
           <p className="text-dark descripcion">{producto.descripcion}</p>
-          <p className="text-dark precio">Precio: S/ {producto.precio}</p>
+          <p className="text-dark precio fw-bold">Precio: S/ {producto.precio}</p>
 
           <div className="cantidad-control">
-            <button onClick={disminuirCantidad} className="btn-cantidad">
+            <button onClick={disminuirCantidad} className="btn btn-cantidad mx-2 text-light">
               -
             </button>
             <span>{cantidad}</span>
-            <button onClick={incrementarCantidad} className="btn-cantidad">
+            <button onClick={incrementarCantidad} className="btn btn-cantidad mx-2 text-light">
               +
             </button>
           </div>
 
           <button
             onClick={agregarAlCarrito}
-            className="btn-agregar-carrito mt-3"
+            className="btn btn-agregar-carrito my-3 text-light "
           >
             Añadir al Carrito
           </button>

@@ -1,5 +1,28 @@
-.producto-imagen{
+.producto-imagen {
     width: 100%;
     height: 70%;
     object-fit: cover;
+}
+
+.btn-cantidad, .btn-agregar-carrito {
+    background-color: #b08877;
+    border: none;
+    color: #fff;
+}
+
+.btn-cantidad:active, .btn-agregar-carrito:active {
+    background-color: #b08877;
+    box-shadow: none;
+}
+
+.btn-cantidad:hover, .btn-agregar-carrito:hover {
+    background-color: #a07665; 
+    color: #fff;
+}
+
+/* Media Query para pantallas menores a 767px */
+@media (max-width: 767px) {
+    .col-sm-12.col-md-6 {
+        margin: 15px; /* Agrega margen a la columna */
+    }
 }

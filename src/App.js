@@ -10,27 +10,35 @@ import { CarritoProvider } from "./context/CarritoContext";
 
 function App() {
   const location = useLocation();
-  const [hideHeaderFooter, setHideHeaderFooter] = useState(false);
+  const [hideHeader, setHideHeader] = useState(false);
+  const [hideFooter, setHideFooter] = useState(false);
 
-  const noHeaderNoFooterRoutes = ["/usuario", "/registro"];
+  const noHeaderRoutes = ["/usuario", "/registro"];
+  const noFooterRoutes = ["/carrito", "/productos"];
 
   useEffect(() => {
     const isDescripcionProducto = location.pathname.startsWith(
       "/descripcionProducto/"
     );
+
     const isValidRoute =
       validRoutes.includes(location.pathname) || isDescripcionProducto;
-    const shouldHideHeaderFooter =
-      noHeaderNoFooterRoutes.includes(location.pathname) || !isValidRoute;
 
-    setHideHeaderFooter(shouldHideHeaderFooter);
+    // Determina si el Header debe ocultarse
+    const shouldHideHeader =
+      noHeaderRoutes.includes(location.pathname) || !isValidRoute;
+    setHideHeader(shouldHideHeader);
+
+    // Determina si el Footer debe ocultarse
+    const shouldHideFooter = noFooterRoutes.includes(location.pathname);
+    setHideFooter(shouldHideFooter);
   }, [location.pathname]);
 
   return (
     <CarritoProvider>
-      {!hideHeaderFooter && <Header />}
+      {!hideHeader && <Header />}
       <AppRoutes />
-      {!hideHeaderFooter && <Footer />}
+      {!hideFooter && <Footer />}
     </CarritoProvider>
   );
 }
