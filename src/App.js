@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter, useLocation } from "react-router-dom";
 
 import Header from "./components/layout/Header";
@@ -14,7 +15,7 @@ function App() {
   const [hideFooter, setHideFooter] = useState(false);
 
   const noHeaderRoutes = ["/usuario", "/registro"];
-  const noFooterRoutes = ["/carrito", "/productos"];
+  const noFooterRoutes = ["/carrito", "/productos", "/checkout"];
 
   useEffect(() => {
     const isDescripcionProducto = location.pathname.startsWith(
