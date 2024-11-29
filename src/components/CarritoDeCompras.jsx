@@ -52,7 +52,7 @@ export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
         &times;
       </button>
 
-      <h2 className="text-dark">Tu Carrito de Compras</h2>
+      <h2 className="text-dark fs-5 mt-2">Tu Carrito de Compras</h2>
       {carrito.length === 0 ? (
         <p>El carrito está vacío</p>
       ) : (

@@ -8,6 +8,12 @@ import DeliveryDetails from "../components/DeliveryDetails";
 import OrderSummary from "../components/OrderSummary";
 import usePedido from "../hooks/usePedido";
 import Swal from "sweetalert2";
+import {
+  esCorreoValido,
+  esTextoSeguro,
+  esTelefonoValido,
+  esTextoDeLongitudValida,
+} from "../utils/validaciones";
 
 const stripePromise = loadStripe("pk_test_51PTvWABzWFke1tUBiAGwKdfoTW3W4jLLQ88DvlcGGAcmB10Dj5kojMaf9r0lPi54sNv47wmdiN9hqDi29clrHDbU003qXTZU1n");
 
@@ -53,26 +59,48 @@ const CheckoutPage = () => {
     return () => window.removeEventListener("storage", updateCart);
   }, []);
 
+  const validarDetalles = () => {
+    if (!esTextoSeguro(billingDetails.fullName) || !esTextoDeLongitudValida(billingDetails.fullName, 1, 50)) {
+      Swal.fire("Error", "El nombre completo no es válido.", "error");
+      return false;
+    }
+    if (!esCorreoValido(billingDetails.email)) {
+      Swal.fire("Error", "El correo electrónico no es válido.", "error");
+      return false;
+    }
+    if (!esTelefonoValido(billingDetails.phone)) {
+      Swal.fire("Error", "El número de teléfono no es válido.", "error");
+      return false;
+    }
+    if (deliveryOption === "delivery") {
+      if (!esTextoDeLongitudValida(deliveryDetails.direccion, 5, 100)) {
+        Swal.fire("Error", "La dirección debe tener entre 5 y 100 caracteres.", "error");
+        return false;
+      }
+    }
+    if (deliveryOption === "pickup") {
+      if (!pickupDetails.local || !pickupDetails.horario) {
+        Swal.fire("Error", "Debes seleccionar un local y un horario para el recojo.", "error");
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Stripe no está cargado correctamente.",
-      });
+      Swal.fire("Error", "Stripe no está cargado correctamente.", "error");
       return;
     }
 
     if (!deliveryOption) {
-      Swal.fire({
-        icon: "warning",
-        title: "Opción de entrega no seleccionada",
-        text: "Por favor, selecciona cómo deseas recibir tu pedido.",
-      });
+      Swal.fire("Advertencia", "Por favor, selecciona cómo deseas recibir tu pedido.", "warning");
       return;
     }
+
+    if (!validarDetalles()) return;
 
     const cardElement = elements.getElement(CardElement);
 
@@ -82,18 +110,12 @@ const CheckoutPage = () => {
       billing_details: {
         name: billingDetails.fullName,
         email: billingDetails.email,
-        address: {
-          postal_code: billingDetails.postalCode,
-        },
+        address: { postal_code: billingDetails.postalCode },
       },
     });
 
     if (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error de pago",
-        text: error.message,
-      });
+      Swal.fire("Error de pago", error.message, "error");
       return;
     }
 
@@ -105,19 +127,10 @@ const CheckoutPage = () => {
         pickupDetails
       );
 
-      Swal.fire({
-        icon: "success",
-        title: "Pedido completado",
-        text: "Tu pedido se ha realizado con éxito.",
-      });
-
+      Swal.fire("Pedido completado", "Tu pedido se ha realizado con éxito.", "success");
       navigate("/");
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Hubo un problema al procesar tu pedido. Por favor, intenta nuevamente.",
-      });
+      Swal.fire("Error", "Hubo un problema al procesar tu pedido.", "error");
     }
   };
 

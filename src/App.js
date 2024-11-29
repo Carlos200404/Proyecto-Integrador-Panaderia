@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -8,12 +8,14 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import AppRoutes, { validRoutes } from "./routes/AppRoutes";
 import { CarritoProvider } from "./context/CarritoContext";
+import { AuthContext, AuthProvider } from "./context/AuthContext"; // Importación corregida
 
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
 function App() {
   const location = useLocation();
+  const { isAuthenticated } = useContext(AuthContext); // Usa correctamente el AuthContext
   const [hideHeader, setHideHeader] = useState(false);
   const [hideFooter, setHideFooter] = useState(false);
 
@@ -23,7 +25,7 @@ function App() {
     "/productos",
     "/checkout",
     "/usuario",
-    "/descripcionProducto/:id", // No queremos que el Footer esté en esta página
+    "/descripcionProducto/:id",
   ];
 
   useEffect(() => {
@@ -31,18 +33,19 @@ function App() {
       "/descripcionProducto/"
     );
 
-    const isValidRoute =
-      validRoutes.includes(location.pathname) || isDescripcionProducto;
+    const isNotFoundPage = !validRoutes.some((route) =>
+      location.pathname.match(new RegExp(`^${route.replace(/:\w+/g, "\\w+")}$`))
+    );
 
     // Determina si el Header debe ocultarse
-    const shouldHideHeader =
-      noHeaderRoutes.includes(location.pathname) || !isValidRoute;
-    setHideHeader(shouldHideHeader);
+    setHideHeader(
+      noHeaderRoutes.includes(location.pathname) || isNotFoundPage
+    );
 
     // Determina si el Footer debe ocultarse
-    const shouldHideFooter =
-      noFooterRoutes.includes(location.pathname) || isDescripcionProducto;
-    setHideFooter(shouldHideFooter); // Siempre ocultar Footer en detalles producto
+    setHideFooter(
+      noFooterRoutes.includes(location.pathname) || isDescripcionProducto || isNotFoundPage
+    );
   }, [location.pathname]);
 
   return (
@@ -57,7 +60,9 @@ function App() {
 function RootApp() {
   return (
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

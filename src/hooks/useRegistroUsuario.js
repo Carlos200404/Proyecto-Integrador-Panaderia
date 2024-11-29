@@ -7,6 +7,7 @@ import {
   esCorreoValido,
   esTelefonoValido,
   esContrasenaValida,
+  esCampoSeguro,
 } from "../utils/validaciones";
 
 export default function useRegistroUsuario() {
@@ -17,7 +18,7 @@ export default function useRegistroUsuario() {
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [rolId] = useState(2);
+  const [rolId] = useState(2); // Rol por defecto
 
   const notyf = new Notyf({
     duration: 3000,
@@ -33,6 +34,10 @@ export default function useRegistroUsuario() {
       notyf.error("Los nombres y apellidos deben contener solo letras y espacios");
       return;
     }
+    if (!esCampoSeguro(primerNombre) || !esCampoSeguro(primerApellido)) {
+      notyf.error("Los nombres y apellidos contienen caracteres no permitidos");
+      return;
+    }
     if (!esCorreoValido(correo)) {
       notyf.error("Correo electrónico no es válido");
       return;
@@ -46,9 +51,9 @@ export default function useRegistroUsuario() {
       return;
     }
 
-    // Corrección de template literals
-    const nombre = `${primerNombre} ${segundoNombre}`;
-    const apellido = `${primerApellido} ${segundoApellido}`;
+    // Concatenar nombres y apellidos
+    const nombre = `${primerNombre} ${segundoNombre}`.trim();
+    const apellido = `${primerApellido} ${segundoApellido}`.trim();
 
     const nuevoUsuario = {
       nombre,
@@ -61,8 +66,12 @@ export default function useRegistroUsuario() {
 
     try {
       const respuesta = await RegistrarUsuario(nuevoUsuario);
-      console.log("Usuario registrado:", respuesta.data);
-      notyf.success("Usuario registrado exitosamente");
+      if (respuesta.status === 201) {
+        notyf.success("Usuario registrado exitosamente");
+        console.log("Usuario registrado:", respuesta.data);
+      } else {
+        notyf.error("Error desconocido al registrar usuario");
+      }
     } catch (error) {
       console.error("Error al registrar usuario:", error);
       if (

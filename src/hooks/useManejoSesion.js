@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-import { LogearUsuario } from "../service/AuntenticacionService"; 
-import { esCorreoValido, esContrasenaValida } from "../utils/validaciones"; 
+import { LogearUsuario } from "../service/AuntenticacionService";
+import { esCorreoValido, esContrasenaValida, esCampoSeguro } from "../utils/validaciones";
 
 export const useManejoSesion = () => {
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const notyf = new Notyf({
@@ -16,52 +15,54 @@ export const useManejoSesion = () => {
     duration: 3000,
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Validaciones
+  const validarDatos = () => {
     if (!esCorreoValido(correo)) {
-      notyf.error("Correo electrónico no es válido");
-      return;
+      notyf.error("Correo electrónico no es válido.");
+      return false;
+    }
+
+    if (!esCampoSeguro(correo)) {
+      notyf.error("El correo contiene caracteres inválidos.");
+      return false;
     }
 
     if (!esContrasenaValida(password)) {
-      notyf.error("La contraseña debe tener al menos 8 caracteres");
-      return;
+      notyf.error("La contraseña debe tener al menos 8 caracteres.");
+      return false;
     }
+
+    if (!esCampoSeguro(password)) {
+      notyf.error("La contraseña contiene caracteres inválidos.");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validarDatos()) return;
 
     try {
       const respuestaLogin = await LogearUsuario(correo, password);
-      const { token, id, nombre, apellido, correo: email, telefono } = respuestaLogin.data;
+      const { token } = respuestaLogin.data;
 
-      // Guardar datos en localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("id", id); // Guardar el ID del usuario
-      localStorage.setItem("nombre", nombre);
-      localStorage.setItem("apellido", apellido);
-      localStorage.setItem("correo", email);
-      localStorage.setItem("telefono", telefono);
+      if (!token) {
+        notyf.error("Token no válido o no recibido.");
+        return;
+      }
+
+      localStorage.setItem("token", token); 
 
       notyf.success("Inicio de sesión exitoso");
-      setIsLoggedIn(true);
 
-      setTimeout(() => {
-        navigate("/usuario");
-        window.location.reload();
-      }, 2000);
+      navigate("/usuario");
     } catch (error) {
-      notyf.error("Correo o contraseña incorrectos");
-      console.error("Error al iniciar sesión:", error);
+      notyf.error("Correo o contraseña incorrectos.");
+      console.error("Error al iniciar sesión:", error.response?.data || error.message);
     }
   };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setTimeout(() => {
-        navigate("/usuario");
-      }, 2000);
-    }
-  }, [isLoggedIn, navigate]);
 
   return {
     correo,

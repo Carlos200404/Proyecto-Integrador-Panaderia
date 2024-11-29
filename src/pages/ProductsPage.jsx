@@ -7,7 +7,7 @@ import "../stylesPages/StyleProductPage.css";
 export default function ProductsPage() {
   const {
     productosAMostrar,
-    productosFiltrados, // <-- Asegúrate de incluir productosFiltrados
+    productosFiltrados, 
     categorias,
     setFiltroPrecio,
     setBusqueda,

@@ -1,18 +1,17 @@
 import { useState, useContext } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { CarritoContext } from "../context/CarritoContext";
-
+import { AuthContext } from "../context/AuthContext"; 
+import StripeService from "../service/StripeService"; 
 const usePedido = () => {
-  const { carrito, vaciarCarrito } = useContext(CarritoContext);
+  const { carrito, vaciarCarrito } = useContext(CarritoContext); 
+  const { userData } = useContext(AuthContext); 
   const [loading, setLoading] = useState(false);
 
   const registrarPedido = async (deliveryOption, billingDetails, deliveryDetails, pickupDetails) => {
     setLoading(true);
     try {
-      // Obtener el ID del usuario desde localStorage
-      const userId = localStorage.getItem("id");
-      if (!userId) {
+      if (!userData || !userData.userId) {
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -22,7 +21,8 @@ const usePedido = () => {
         return;
       }
 
-      // Obtener los productos del carrito
+      const userId = userData.userId; 
+
       const carritoData = JSON.parse(localStorage.getItem("carrito")) || [];
       if (carritoData.length === 0) {
         Swal.fire({
@@ -34,17 +34,16 @@ const usePedido = () => {
         return;
       }
 
-      // Construir los productos en el formato requerido
       const productos = carritoData.map((item) => ({
         producto: { id: item.id },
         cantidad: item.cantidad,
       }));
 
-      // Crear el pedido en base al formato solicitado
+      
       const pedido = {
         pedido: {
-          usuario: { id: parseInt(userId) },
-          fecha: new Date().toISOString().split("T")[0], // Fecha actual en formato YYYY-MM-DD
+          usuario: { id: userId }, 
+          fecha: new Date().toISOString().split("T")[0], 
           estado: "Pendiente",
           ...(deliveryOption === "delivery"
             ? { direccion: { ...deliveryDetails } }
@@ -54,22 +53,19 @@ const usePedido = () => {
         recojoTienda:
           deliveryOption === "pickup"
             ? {
-              local: pickupDetails.local,
-              horario: pickupDetails.horario,
-              receptorNombre: pickupDetails.receptor,
-              receptorDni: pickupDetails.dni,
-            }
+                local: pickupDetails.local,
+                horario: pickupDetails.horario,
+                receptorNombre: pickupDetails.receptor,
+                receptorDni: pickupDetails.dni,
+              }
             : null,
       };
 
-      console.log("Pedido final a enviar:", pedido); // Verificar estructura del pedido
+      console.log("Pedido final a enviar:", pedido); 
 
-      // Enviar el pedido al backend
-      const response = await axios.post("http://localhost:8081/api/pedidos/crear-pedido", pedido, {
-        withCredentials: true,
-      });
+      const response = await StripeService.crearPedidoYPaymentIntent(pedido);
 
-      console.log("Respuesta del backend:", response.data);
+      console.log("Respuesta del backend:", response);
 
       Swal.fire({
         icon: "success",
@@ -77,10 +73,9 @@ const usePedido = () => {
         text: "Estamos procesando tu pedido.",
       });
 
-      // Limpiar el carrito
       localStorage.removeItem("carrito");
       vaciarCarrito();
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error al procesar el pedido:", error.response?.data || error.message);
       Swal.fire({

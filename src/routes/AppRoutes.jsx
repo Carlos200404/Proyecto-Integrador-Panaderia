@@ -11,7 +11,16 @@ import DetailsPage from "../pages/DetailsPage";
 import CartPage from "../pages/CartPage";
 import CheckoutPage from "../pages/CheckoutPage";
 
-export const validRoutes = ["/", "/productos", "/contacto", "/usuario", "/registro", "/descripcionProducto/:id", "/carrito", "/checkout"]; // Agregamos /login
+export const validRoutes = [
+  "/",
+  "/productos",
+  "/contacto",
+  "/usuario",
+  "/registro",
+  "/descripcionProducto/:id",
+  "/carrito",
+  "/checkout",
+];
 
 export default function AppRoutes() {
   return (
@@ -23,8 +32,8 @@ export default function AppRoutes() {
       <Route path="/registro" element={<Register />} />
       <Route path="/descripcionProducto/:id" element={<DetailsPage />} />
       <Route path="/carrito" element={<CartPage />} />
-      <Route path="*" element={<NotFoundPage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

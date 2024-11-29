@@ -7,6 +7,9 @@ import {
   esCorreoValidoFormulario,
   esTelefonoValidoFormulario,
   esMensajeValidoFormulario,
+  esTextoSeguro,
+  esCampoSeguro,
+  escaparHTML,
 } from "../utils/validaciones";
 
 export default function useFormularioContacto() {
@@ -24,27 +27,28 @@ export default function useFormularioContacto() {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    const valorSanitizado = escaparHTML(value); 
     setFormData((prevData) => ({
       ...prevData,
-      [id]: value,
+      [id]: valorSanitizado,
     }));
   };
 
   const validarFormulario = () => {
-    if (!esNombreValidoFormulario(formData.nombre)) {
-      notyf.error("El nombre debe tener entre 1 y 50 caracteres.");
+    if (!esNombreValidoFormulario(formData.nombre) || !esCampoSeguro(formData.nombre)) {
+      notyf.error("El nombre contiene caracteres inválidos o supera el límite permitido.");
       return false;
     }
     if (!esCorreoValidoFormulario(formData.correo)) {
       notyf.error("Correo electrónico inválido.");
       return false;
     }
-    if (!esTelefonoValidoFormulario(formData.telefono)) {
-      notyf.error("El teléfono debe tener 9 dígitos numéricos.");
+    if (!esTelefonoValidoFormulario(formData.telefono) || !esCampoSeguro(formData.telefono)) {
+      notyf.error("El teléfono contiene caracteres inválidos.");
       return false;
     }
-    if (!esMensajeValidoFormulario(formData.mensaje)) {
-      notyf.error("El mensaje debe tener entre 1 y 500 caracteres.");
+    if (!esMensajeValidoFormulario(formData.mensaje) || !esTextoSeguro(formData.mensaje)) {
+      notyf.error("El mensaje contiene caracteres peligrosos o excede el límite permitido.");
       return false;
     }
     return true;
