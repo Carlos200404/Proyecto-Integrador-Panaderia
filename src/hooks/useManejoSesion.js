@@ -32,9 +32,11 @@ export const useManejoSesion = () => {
 
     try {
       const respuestaLogin = await LogearUsuario(correo, password);
-      const { token, nombre, apellido, correo: email, telefono } = respuestaLogin.data;
+      const { token, id, nombre, apellido, correo: email, telefono } = respuestaLogin.data;
 
+      // Guardar datos en localStorage
       localStorage.setItem("token", token);
+      localStorage.setItem("id", id); // Guardar el ID del usuario
       localStorage.setItem("nombre", nombre);
       localStorage.setItem("apellido", apellido);
       localStorage.setItem("correo", email);

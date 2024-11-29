@@ -9,7 +9,9 @@ const useCheckout = () => {
 
     // Calcula el total del carrito
     const calcularTotal = () => {
-        return carrito.reduce((total, producto) => total + producto.precio * producto.cantidad, 0);
+        const total = carrito.reduce((total, producto) => total + producto.precio * producto.cantidad, 0);
+        console.log("Total calculado del carrito:", total); // Debug: Verificar el total calculado
+        return total;
     };
 
     // Inicia el proceso de pago creando un Payment Intent en el backend
@@ -17,7 +19,9 @@ const useCheckout = () => {
         setIsLoading(true);
         try {
             const total = calcularTotal();
+            console.log("Iniciando el pago con total:", total); // Debug: Verificar el total antes de hacer la solicitud
             const response = await StripeService.createPaymentIntent(total, "PEN");
+            console.log("Respuesta del backend (clientSecret):", response); // Debug: Verificar la respuesta del backend
             setClientSecret(response.clientSecret); // Asegúrate de que el backend envíe el clientSecret en el JSON
         } catch (error) {
             console.error("Error al iniciar el pago:", error);
@@ -52,7 +56,7 @@ const useCheckout = () => {
                 return null;
             }
 
-            // Pago exitoso
+            console.log("Pago exitoso:", result.paymentIntent); // Debug: Verificar el resultado del pago exitoso
             return result.paymentIntent;
         } catch (error) {
             console.error("Error durante el pago:", error);
@@ -77,13 +81,15 @@ const useCheckout = () => {
                 total: calcularTotal(),
             };
 
+            console.log("Registrando el pedido:", pedido); // Debug: Verificar la estructura del pedido
             const response = await StripeService.createOrder(pedido);
 
             if (response.success) {
+                console.log("Pedido registrado exitosamente."); // Debug: Verificar éxito al registrar el pedido
                 alert("Pedido registrado exitosamente.");
                 vaciarCarrito();
             } else {
-                console.error("Error al registrar el pedido:", response.message);
+                console.error("Error al registrar el pedido:", response.message); // Debug: Verificar respuesta en caso de error
                 alert("No se pudo registrar el pedido.");
             }
         } catch (error) {

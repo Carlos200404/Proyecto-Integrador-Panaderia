@@ -46,6 +46,7 @@ export default function useRegistroUsuario() {
       return;
     }
 
+    // Corrección de template literals
     const nombre = `${primerNombre} ${segundoNombre}`;
     const apellido = `${primerApellido} ${segundoApellido}`;
 
@@ -64,7 +65,10 @@ export default function useRegistroUsuario() {
       notyf.success("Usuario registrado exitosamente");
     } catch (error) {
       console.error("Error al registrar usuario:", error);
-      if (error.response && error.response.data === "El correo electrónico ya está registrado") {
+      if (
+        error.response &&
+        error.response.data === "El correo electrónico ya está registrado"
+      ) {
         notyf.error("El correo electrónico ya existe en la base de datos");
       } else {
         notyf.error("Error al registrar el usuario");
@@ -73,13 +77,20 @@ export default function useRegistroUsuario() {
   };
 
   return {
-    primerNombre, setPrimerNombre,
-    segundoNombre, setSegundoNombre,
-    primerApellido, setPrimerApellido,
-    segundoApellido, setSegundoApellido,
-    correo, setCorreo,
-    telefono, setTelefono,
-    contrasena, setContrasena,
+    primerNombre,
+    setPrimerNombre,
+    segundoNombre,
+    setSegundoNombre,
+    primerApellido,
+    setPrimerApellido,
+    segundoApellido,
+    setSegundoApellido,
+    correo,
+    setCorreo,
+    telefono,
+    setTelefono,
+    contrasena,
+    setContrasena,
     handleSubmit,
   };
 }

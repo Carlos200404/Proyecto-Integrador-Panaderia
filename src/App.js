@@ -9,12 +9,15 @@ import Footer from "./components/layout/Footer";
 import AppRoutes, { validRoutes } from "./routes/AppRoutes";
 import { CarritoProvider } from "./context/CarritoContext";
 
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+
 function App() {
   const location = useLocation();
   const [hideHeader, setHideHeader] = useState(false);
   const [hideFooter, setHideFooter] = useState(false);
 
-  const noHeaderRoutes = ["/usuario", "/registro"];
+  const noHeaderRoutes = ["/usuario", "/registro" ];
   const noFooterRoutes = ["/carrito", "/productos", "/checkout"];
 
   useEffect(() => {
@@ -36,11 +39,11 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <CarritoProvider>
-      {!hideHeader && <Header />}
-      <AppRoutes />
-      {!hideFooter && <Footer />}
-    </CarritoProvider>
+      <CarritoProvider>
+        {!hideHeader && <Header />}
+        <AppRoutes />
+        {!hideFooter && <Footer />}
+      </CarritoProvider>
   );
 }
 

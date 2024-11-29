@@ -14,12 +14,12 @@ const PickupDetails = ({ pickupDetails, handlePickupDetailsChange, generateTimeO
         required
       >
         <option value="">Seleccione un local</option>
-        <option value="Plaza de Armas">Plaza de Armas</option>
-        <option value="Megaplaza">Megaplaza</option>
+        <option value="Velazco Av Grau 199">Velazco Av Grau 199</option>
+        <option value="Velazco Megaplaza">Velazco Megaplaza</option>
       </select>
     </div>
     <div className="mb-3">
-      <label htmlFor="horario"className="form-label text-dark fw-bold">Elija el horario para el recojo:</label>
+      <label htmlFor="horario" className="form-label text-dark fw-bold">Elija el horario para el recojo:</label>
       <select
         id="horario"
         name="horario"
@@ -60,6 +60,7 @@ const PickupDetails = ({ pickupDetails, handlePickupDetailsChange, generateTimeO
           onChange={handlePickupDetailsChange}
           required
         />
+
       </div>
     </div>
   </div>

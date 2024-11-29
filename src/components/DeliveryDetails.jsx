@@ -4,7 +4,7 @@ const DeliveryDetails = ({ deliveryDetails, handleDeliveryDetailsChange }) => (
   <div>
     <h5 className="text-dark fw-bold">Detalles para el Delivery</h5>
     <div className="mb-3">
-      <label htmlFor="pais" className="form-label text-dark fw-bold" >País:</label>
+      <label htmlFor="pais" className="form-label text-dark fw-bold">País:</label>
       <input
         type="text"
         id="pais"
@@ -26,17 +26,6 @@ const DeliveryDetails = ({ deliveryDetails, handleDeliveryDetailsChange }) => (
       />
     </div>
     <div className="mb-3">
-      <label htmlFor="distrito" className="form-label text-dark fw-bold">Distrito:</label>
-      <input
-        type="text"
-        id="distrito"
-        name="distrito"
-        className="form-control"
-        value={deliveryDetails.distrito}
-        readOnly
-      />
-    </div>
-    <div className="mb-3">
       <label htmlFor="direccion" className="form-label text-dark fw-bold">Dirección:</label>
       <input
         type="text"
@@ -47,6 +36,18 @@ const DeliveryDetails = ({ deliveryDetails, handleDeliveryDetailsChange }) => (
         value={deliveryDetails.direccion}
         onChange={handleDeliveryDetailsChange}
         required
+      />
+    </div>
+    <div className="mb-3">
+      <label htmlFor="referencia" className="form-label text-dark fw-bold">Referencia:</label>
+      <input
+        type="text"
+        id="referencia"
+        name="referencia"
+        className="form-control"
+        placeholder="Ej: Cerca al parque"
+        value={deliveryDetails.referencia}
+        onChange={handleDeliveryDetailsChange}
       />
     </div>
   </div>

@@ -94,7 +94,9 @@ const CartPage = () => {
         <h5 className="me-md-3 mb-3 mb-md-0">
           <strong className="fw-bold">SubTotal:</strong> S/ {calcularTotal().toFixed(2)}
         </h5>
-        <button className="btn btn-primary">Ir a pagar</button>
+        <Link to={"/checkout"}>
+          <button className="btn btn-primary">Ir a pagar</button>
+        </Link>
       </div>
     </div>
   );

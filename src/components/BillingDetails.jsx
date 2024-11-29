@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useEffect } from "react";
 const BillingDetails = ({ billingDetails, handleBillingDetailsChange }) => (
+    
+  
   <div>
     <h4 className="text-dark fw-bold">Información del Cliente</h4>
     <div className="mb-3">
