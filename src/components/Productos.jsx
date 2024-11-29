@@ -11,13 +11,13 @@ export default function Productos({ producto }) {
         <div className="img-container">
           <img
             src={producto.imageUrl || "default.jpg"}
-            alt={producto.nombre}
+            alt={producto.nombre || "Producto sin nombre"}
             className="card-img-top"
             onClick={redirigirADetalles}
           />
           <div
             className="add-to-cart"
-            onClick={() => agregarAlCarrito(1)} 
+            onClick={() => agregarAlCarrito(1)}
             style={{ cursor: "pointer" }}
           >
             <svg
@@ -38,21 +38,21 @@ export default function Productos({ producto }) {
             onClick={redirigirADetalles}
             style={{ cursor: "pointer" }}
           >
-            {producto.categoria.nombre}
+            {producto.categoria?.nombre || "Sin categoría"}
           </p>
           <h5
             className="card-title text-center"
             onClick={redirigirADetalles}
             style={{ cursor: "pointer" }}
           >
-            {producto.nombre}
+            {producto.nombre || "Producto sin nombre"}
           </h5>
           <p
             className="card-text text-center"
             onClick={redirigirADetalles}
             style={{ cursor: "pointer" }}
           >
-            Precio: S/ {producto.precio}
+            Precio: S/ {producto.precio || 0.0}
           </p>
         </div>
       </div>

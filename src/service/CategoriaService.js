@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:8081/api/categorias';
+const API_URL = "http://localhost:8081/api/categorias";
 
-export const obtenerCategoria = (formData) => {
-    return axios.get(`${API_URL}`);
-  };
-  
+export const obtenerCategoria = async () => {
+  return await axios.get(`${API_URL}/obtenerCategorias`);
+};

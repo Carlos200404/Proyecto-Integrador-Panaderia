@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Login from "../components/Login";
 import useDatosUsuario from "../hooks/useDatosUsuario";
+import { obtenerHistorialPorUsuario } from "../service/HistorialService";
 
 export default function UserPage() {
   const {
     isAuthenticated,
+    originalData,
+    handleLogout,
+    handleUpdate,
+    error,
     nombreUsuario,
     setNombreUsuario,
     apellidoUsuario,
@@ -15,20 +20,53 @@ export default function UserPage() {
     setTelefonoUsuario,
     nuevaContrasena,
     setNuevaContrasena,
-    originalData,
-    handleLogout,
-    handleUpdate,
-    error,
   } = useDatosUsuario();
+
+  const [historial, setHistorial] = useState([]);
+
+  useEffect(() => {
+    const idUsuario = localStorage.getItem("id"); // Cambiado a "id"
+    if (idUsuario) {
+      obtenerHistorialPorUsuario(idUsuario)
+        .then((response) => setHistorial(response.data))
+        .catch((error) => console.error("Error al obtener el historial:", error));
+    }
+  }, []);
 
   return (
     <div>
       {isAuthenticated ? (
         <div>
-          <h2>Bienvenido, {originalData.nombre} {originalData.apellido}</h2>
+          <h2>
+            Bienvenido, {originalData.nombre} {originalData.apellido}
+          </h2>
           <p>Correo: {originalData.correo}</p>
           <p>Teléfono: {originalData.telefono}</p>
           <button onClick={handleLogout}>Cerrar Sesión</button>
+
+          <h3>Historial de Pedidos</h3>
+          {historial.length > 0 ? (
+            <ul>
+              {historial.map((pedido) => (
+                <li key={pedido.id}>
+                  <p>
+                    <strong>Producto:</strong> {pedido.nombreProducto}
+                  </p>
+                  <p>
+                    <strong>Cantidad:</strong> {pedido.cantidad}
+                  </p>
+                  <p>
+                    <strong>Subtotal:</strong> S/ {pedido.subtotal}
+                  </p>
+                  <p>
+                    <strong>Fecha:</strong> {pedido.fecha}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No tienes pedidos en tu historial.</p>
+          )}
 
           <h3>Actualizar Datos</h3>
           {error && <p style={{ color: "red" }}>{error}</p>}
