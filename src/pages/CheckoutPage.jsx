@@ -17,12 +17,6 @@ const CheckoutPage = () => {
   const { registrarPedido, loading } = usePedido();
   const navigate = useNavigate();
 
-  const [billingDetails, setBillingDetails] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    postalCode: "", // Agregado el código postal
-  });
   const [deliveryOption, setDeliveryOption] = useState(null);
   const [pickupDetails, setPickupDetails] = useState({
     local: "",
@@ -37,6 +31,12 @@ const CheckoutPage = () => {
     direccion: "",
     referencia: "",
     telefonoContacto: "",
+  });
+  const [billingDetails, setBillingDetails] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    postalCode: "",
   });
   const [cart, setCart] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
@@ -97,24 +97,11 @@ const CheckoutPage = () => {
       return;
     }
 
-    console.log("PaymentMethod creado:", paymentMethod);
-
-    const codigoPostal = paymentMethod.billing_details?.address?.postal_code || "";
-    if (!codigoPostal) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "El código postal es obligatorio.",
-      });
-      return;
-    }
-
     try {
-      // Enviar los datos al backend
       await registrarPedido(
         deliveryOption,
         billingDetails,
-        { ...deliveryDetails, codigoPostal },
+        { ...deliveryDetails, codigoPostal: paymentMethod.billing_details?.address?.postal_code },
         pickupDetails
       );
 
@@ -124,10 +111,8 @@ const CheckoutPage = () => {
         text: "Tu pedido se ha realizado con éxito.",
       });
 
-      // Redirigir a la página principal
       navigate("/");
     } catch (err) {
-      console.error("Error al registrar el pedido:", err);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -152,7 +137,7 @@ const CheckoutPage = () => {
         iconColor: "#fa755a",
       },
     },
-    hidePostalCode: false, // Mostrar el campo de código postal
+    hidePostalCode: false,
   };
 
   const generateTimeOptions = () =>
@@ -163,28 +148,18 @@ const CheckoutPage = () => {
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-6">
-            <BillingDetails
-              billingDetails={billingDetails}
-              handleBillingDetailsChange={(e) =>
-                setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value })
-              }
-            />
-            <h5 className="mt-4 text-dark fw-bold">¿Cómo desea recibir su pedido?</h5>
+            <h5 className="text-dark fw-bold fs-5">¿Cómo desea recibir su pedido?</h5>
             <div className="d-flex gap-3 my-3">
               <button
                 type="button"
-                className={`btn ${
-                  deliveryOption === "pickup" ? "btn-dark" : "btn-outline-dark"
-                } flex-grow-1`}
+                className={`btn ${deliveryOption === "pickup" ? "btn-dark" : "btn-outline-dark"} flex-grow-1`}
                 onClick={() => setDeliveryOption("pickup")}
               >
                 Recoger en tienda
               </button>
               <button
                 type="button"
-                className={`btn ${
-                  deliveryOption === "delivery" ? "btn-dark" : "btn-outline-dark"
-                } flex-grow-1`}
+                className={`btn ${deliveryOption === "delivery" ? "btn-dark" : "btn-outline-dark"} flex-grow-1`}
                 onClick={() => setDeliveryOption("delivery")}
               >
                 Delivery
@@ -207,15 +182,17 @@ const CheckoutPage = () => {
                 }
               />
             )}
-            <h5 className="mt-4 text-dark fw-bold">Información de la tarjeta</h5>
+            <BillingDetails
+              billingDetails={billingDetails}
+              handleBillingDetailsChange={(e) =>
+                setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value })
+              }
+            />
+            <h5 className="text-dark fw-bold fs-5 mt-4">Información de la tarjeta</h5>
             <div className="p-3 border rounded" style={{ backgroundColor: "#f9f9f9" }}>
               <CardElement options={cardElementOptions} />
             </div>
-            <button
-              type="submit"
-              className="btn btn-success mt-3 mb-5"
-              disabled={!stripe || loading}
-            >
+            <button type="submit" className="btn btn-success mt-3 mb-5 px-2 py-2" disabled={!stripe || loading}>
               {loading ? "Procesando..." : "Confirmar Pedido"}
             </button>
           </div>

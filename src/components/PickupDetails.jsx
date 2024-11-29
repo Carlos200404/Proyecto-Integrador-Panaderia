@@ -2,7 +2,7 @@ import React from "react";
 
 const PickupDetails = ({ pickupDetails, handlePickupDetailsChange, generateTimeOptions }) => (
   <div>
-    <h5 className="text-dark fw-bold">Detalles para recoger en tienda</h5>
+    <h5 className="text-dark fw-bold fs-5">Detalles para recoger en tienda</h5>
     <div className="mb-3">
       <label htmlFor="local" className="form-label text-dark fw-bold">Elija el local para el recojo:</label>
       <select
@@ -19,7 +19,7 @@ const PickupDetails = ({ pickupDetails, handlePickupDetailsChange, generateTimeO
       </select>
     </div>
     <div className="mb-3">
-      <label htmlFor="horario" className="form-label text-dark fw-bold">Elija el horario para el recojo:</label>
+      <label htmlFor="horario" className="form-label text-dark fw-bold fs-6">Elija el horario para el recojo:</label>
       <select
         id="horario"
         name="horario"

@@ -2,7 +2,7 @@ import React from "react";
 
 const DeliveryDetails = ({ deliveryDetails, handleDeliveryDetailsChange }) => (
   <div>
-    <h5 className="text-dark fw-bold">Detalles para el Delivery</h5>
+    <h5 className="text-dark fw-bold fs-5">Detalles para el Delivery</h5>
     <div className="mb-3">
       <label htmlFor="pais" className="form-label text-dark fw-bold">País:</label>
       <input

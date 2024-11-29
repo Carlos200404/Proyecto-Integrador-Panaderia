@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import "../stylesPages/DetailsPage.css";
@@ -57,45 +57,59 @@ export default function DetailsPage() {
   }, [id]);
 
   if (loading) {
-    return <p>Cargando detalles del producto...</p>;
+    return <p className="details-loading">Cargando detalles del producto...</p>;
   }
 
   if (!producto) {
-    return <p>No se encontró el producto.</p>;
+    return <p className="details-not-found">No se encontró el producto.</p>;
   }
 
   return (
     <div className="container details-container">
-      <h2 className="text-dark mx-5 my-5">Detalles del Producto</h2>
-      <div className="row">
-        <div className="col-sm-12 col-md-6">
+      <div className="details-back-link">
+        <Link to="/productos" className="text-decoration-none">
+          <i className="bi bi-arrow-left"></i> Volver a Productos
+        </Link>
+      </div>
+
+      <h2 className="details-title text-dark mx-5 my-5">Detalles del Producto</h2>
+      <div className="row details-row">
+        <div className="col-sm-12 col-md-6 details-image-container">
           <img
             src={producto.imageUrl}
             alt={producto.nombre}
-            className="producto-imagen"
+            className="details-producto-imagen"
           />
         </div>
-        <div className="col-sm-12 col-md-6">
-          <h2 className="text-dark">{producto.nombre}</h2>
-          <p className="text-dark descripcion">{producto.descripcion}</p>
-          <p className="text-dark precio fw-bold">Precio: S/ {producto.precio}</p>
+        <div className="col-sm-12 col-md-6 details-info-container">
+          <h2 className="details-producto-nombre text-dark">{producto.nombre}</h2>
+          <p className="details-producto-descripcion text-dark">{producto.descripcion}</p>
+          <p className="details-producto-precio text-dark fw-bold">Precio: S/ {producto.precio}</p>
 
-          <div className="cantidad-control">
-            <button onClick={disminuirCantidad} className="btn btn-cantidad mx-2 text-light">
-              -
-            </button>
-            <span>{cantidad}</span>
-            <button onClick={incrementarCantidad} className="btn btn-cantidad mx-2 text-light">
-              +
+          <div className="details-control-group">
+            <div className="details-cantidad-control">
+              <button
+                onClick={disminuirCantidad}
+                className="details-btn-cantidad btn text-light"
+              >
+                -
+              </button>
+              <span className="details-cantidad">{cantidad}</span>
+              <button
+                onClick={incrementarCantidad}
+                className="details-btn-cantidad btn text-light"
+              >
+                +
+              </button>
+            </div>
+
+            <button
+              onClick={agregarAlCarrito}
+              className="details-btn-agregar-carrito btn text-light my-3"
+            >
+              Añadir al Carrito
             </button>
           </div>
-
-          <button
-            onClick={agregarAlCarrito}
-            className="btn btn-agregar-carrito my-3 text-light "
-          >
-            Añadir al Carrito
-          </button>
         </div>
       </div>
     </div>

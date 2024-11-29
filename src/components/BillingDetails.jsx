@@ -4,9 +4,9 @@ const BillingDetails = ({ billingDetails, handleBillingDetailsChange }) => (
     
   
   <div>
-    <h4 className="text-dark fw-bold">Información del Cliente</h4>
+    <h4 className="text-dark fw-bold fs-5">Detalles de Pago</h4>
     <div className="mb-3">
-      <label htmlFor="fullName" className="text-dark fw-bold">Nombre Completo:</label>
+      <label htmlFor="fullName" className="text-dark fw-bold fs-6">Nombre Completo:</label>
       <input
         type="text"
         id="fullName"
@@ -18,7 +18,7 @@ const BillingDetails = ({ billingDetails, handleBillingDetailsChange }) => (
       />
     </div>
     <div className="mb-3">
-      <label htmlFor="lastName" className="text-dark fw-bold">Apellido Completo:</label>
+      <label htmlFor="lastName" className="text-dark fw-bold fs-6">Apellido Completo:</label>
       <input
         type="text"
         id="lastName"
@@ -30,7 +30,7 @@ const BillingDetails = ({ billingDetails, handleBillingDetailsChange }) => (
       />
     </div>
     <div className="mb-3">
-      <label htmlFor="email" className="text-dark fw-bold">Correo Electrónico:</label>
+      <label htmlFor="email" className="text-dark fw-bold fs-6">Correo Electrónico:</label>
       <input
         type="email"
         id="email"
@@ -42,7 +42,7 @@ const BillingDetails = ({ billingDetails, handleBillingDetailsChange }) => (
       />
     </div>
     <div className="mb-3">
-      <label htmlFor="phone" className="text-dark fw-bold">Teléfono:</label>
+      <label htmlFor="phone" className="text-dark fw-bold fs-6">Teléfono:</label>
       <input
         type="text"
         id="phone"

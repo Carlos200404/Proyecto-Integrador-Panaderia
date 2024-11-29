@@ -1,0 +1,96 @@
+.cartapedido {
+  display: flex; /* Alineación horizontal */
+  justify-content: space-between; /* Separación entre texto y botones */
+  align-items: center; /* Centrado vertical */
+  border: none; /* Eliminamos el borde */
+  border-radius: 20px; /* Bordes redondeados */
+  padding: 20px;
+  margin-bottom: 30px; /* Separación entre tarjetas */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
+}
+
+.pedido-info {
+  flex: 2; /* Espacio para la información del pedido */
+  text-align: left; /* Texto alineado a la izquierda */
+  margin-right: 20px; /* Espaciado entre texto e imágenes */
+}
+
+.pedido-info h5 {
+  font-size: 1.2rem;
+  margin-bottom: 10px; /* Separación entre título y contenido */
+  font-weight: bold;
+}
+
+.pedido-info p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.productos {
+  display: flex;
+  gap: 10px; /* Espaciado entre imágenes */
+  margin-top: 10px; /* Separación entre el texto y las imágenes */
+}
+
+.producto-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px; /* Bordes redondeados */
+  object-fit: cover; /* Ajusta las imágenes */
+}
+
+.btn-group {
+  flex: 1; /* Espacio fijo para los botones */
+  display: flex;
+  flex-direction: column; /* Botones alineados en columna */
+  gap: 10px; /* Separación entre botones */
+  justify-content: center; /* Centrado vertical */
+  align-items: flex-end; /* Alineación derecha en pantallas grandes */
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  width: 150px; /* Ancho fijo para ambos botones */
+  text-align: center; /* Centrar texto en los botones */
+}
+
+.btn-primary {
+  background-color: #a05d23; /* Marrón */
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #864b1e;
+}
+
+.btn-secondary {
+  background-color: #007bff; /* Azul */
+  color: white;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #0056b3;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .cartapedido {
+    flex-direction: column; /* Disposición vertical */
+    align-items: flex-start; /* Alineación al inicio */
+  }
+
+  .btn-group {
+    align-items: center; /* Centrado horizontal en pantallas pequeñas */
+    width: 100%; /* Botones ocupan todo el ancho */
+    margin-top: 10px; /* Espaciado superior para separar los botones */
+  }
+
+  .btn {
+    width: 100%; /* Botones a lo ancho del contenedor */
+  }
+}
