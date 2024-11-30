@@ -1,54 +1,60 @@
-.text-dark {
+.userpage-text-dark {
     font-size: 2rem;
-    /* Asegura un tamaño proporcional para el texto */
     display: flex;
-    /* Alinea el ícono y el texto horizontalmente */
     align-items: center;
-    /* Centra verticalmente el ícono con el texto */
     gap: 15px;
-    /* Espaciado entre el ícono y el texto */
     margin-bottom: 20px;
-    /* Más espacio debajo del encabezado */
 }
 
-.profile-icon {
+.userpage-profile-icon {
     font-size: 3rem;
-    /* Tamaño del ícono */
     color: gray;
-    /* Color del ícono */
 }
 
-.actualizar-btn {
+.userpage-actualizar-btn {
     display: block;
-    /* Convierte el botón en un elemento de bloque */
     margin: 20px auto;
-    /* Centra horizontalmente */
     width: 200px;
-    /* Aumenta el ancho del botón */
     font-size: 1rem;
-    /* Ajusta el tamaño del texto */
     padding: 10px 15px;
-    /* Ajusta el padding para un mejor diseño */
     text-align: center;
-    /* Asegura el centrado del texto */
 }
 
-form input[readonly] {
+.userpage-form input[readonly] {
     background-color: #f8f9fa;
-    /* Color de fondo claro para indicar que es solo lectura */
     color: #495057;
-    /* Color oscuro para el texto */
     border: 1px solid #ced4da;
-    /* Borde estándar */
     font-weight: 500;
-    /* Peso moderado para el texto */
 }
 
-.form-label {
+.userpage-form-label {
     color: #495057;
-    /* Color oscuro para que sea legible */
     font-weight: bold;
-    /* Asegura que las etiquetas se vean destacadas */
     font-size: 1rem;
-    /* Ajusta el tamaño de fuente */
+}
+
+.userpage-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userpage-modal-dialog {
+    max-width: 600px;
+    width: 100%;
+}
+
+.userpage-modal-submit-btn {
+    display: block;
+    margin: 20px auto;
+    width: 150px;
+    font-size: 1rem;
+    padding: 10px;
+    text-align: center;
 }

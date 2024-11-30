@@ -28,7 +28,7 @@ export default function useRegistroUsuario() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Validaciones usando funciones importadas
     if (!esNombreValido(primerNombre) || !esNombreValido(primerApellido)) {
       notyf.error("Los nombres y apellidos deben contener solo letras y espacios");
@@ -50,11 +50,11 @@ export default function useRegistroUsuario() {
       notyf.error("La contraseña debe tener al menos 8 caracteres");
       return;
     }
-
+  
     // Concatenar nombres y apellidos
     const nombre = `${primerNombre} ${segundoNombre}`.trim();
     const apellido = `${primerApellido} ${segundoApellido}`.trim();
-
+  
     const nuevoUsuario = {
       nombre,
       apellido,
@@ -63,7 +63,7 @@ export default function useRegistroUsuario() {
       password: contrasena,
       rol: { id: rolId },
     };
-
+  
     try {
       const respuesta = await RegistrarUsuario(nuevoUsuario);
       if (respuesta.status === 201) {
@@ -74,17 +74,18 @@ export default function useRegistroUsuario() {
       }
     } catch (error) {
       console.error("Error al registrar usuario:", error);
-      if (
-        error.response &&
-        error.response.data === "El correo electrónico ya está registrado"
-      ) {
-        notyf.error("El correo electrónico ya existe en la base de datos");
+      if (error.response) {
+        if (error.response.data === "El correo electrónico ya está registrado") {
+          notyf.error("El correo electrónico ya existe en la base de datos");
+        } else {
+          notyf.error("Error al registrar el usuario: " + error.response.data);
+        }
       } else {
-        notyf.error("Error al registrar el usuario");
+        notyf.error("Error desconocido al registrar el usuario");
       }
     }
   };
-
+  
   return {
     primerNombre,
     setPrimerNombre,

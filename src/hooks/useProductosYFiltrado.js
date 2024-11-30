@@ -6,8 +6,8 @@ export default function useProductosYFiltrado() {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [precioMin, setPrecioMin] = useState(1);
-  const [precioMax, setPrecioMax] = useState(120);
-  const [filtroPrecio, setFiltroPrecio] = useState([1, 120]);
+  const [precioMax, setPrecioMax] = useState(10);
+  const [filtroPrecio, setFiltroPrecio] = useState([1, 10]);
   const [busqueda, setBusqueda] = useState("");
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
   const [orden, setOrden] = useState("");
@@ -69,7 +69,7 @@ export default function useProductosYFiltrado() {
 
   return {
     productosAMostrar,
-    productosFiltrados, 
+    productosFiltrados,
     categorias,
     setFiltroPrecio,
     setBusqueda,

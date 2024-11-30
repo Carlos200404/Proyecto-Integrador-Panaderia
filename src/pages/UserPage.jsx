@@ -7,7 +7,7 @@ import "../stylesPages/styleUserPage.css";
 
 export default function UserPage() {
   const { isAuthenticated, userData, historial, handleLogout } = useContext(AuthContext);
-  const [showModal, setShowModal] = useState(false); // Manejamos el modal localmente
+  const [showModal, setShowModal] = useState(false); 
   const [formState, setFormState] = useState({
     nombre: userData.nombre || "",
     apellido: userData.apellido || "",
@@ -36,14 +36,14 @@ export default function UserPage() {
   return (
     <div className="container mt-5">
       <div>
-        <h1 className="text-dark">
-          <i className="bi bi-person-circle profile-icon"></i>
+        <h1 className="userpage-text-dark">
+          <i className="bi bi-person-circle userpage-profile-icon"></i>
           Bienvenido, {userData.nombre}!
         </h1>
         <div className="mt-4">
           <div className="row">
             <div className="col-md-6">
-              <label htmlFor="nombre" className="form-label">
+              <label htmlFor="nombre" className="userpage-form-label">
                 <strong>Nombre:</strong>
               </label>
               <input
@@ -55,7 +55,7 @@ export default function UserPage() {
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="apellido" className="form-label">
+              <label htmlFor="apellido" className="userpage-form-label">
                 <strong>Apellido:</strong>
               </label>
               <input
@@ -69,7 +69,7 @@ export default function UserPage() {
           </div>
           <div className="row mt-3">
             <div className="col-md-6">
-              <label htmlFor="correo" className="form-label">
+              <label htmlFor="correo" className="userpage-form-label">
                 <strong>Correo:</strong>
               </label>
               <input
@@ -81,7 +81,7 @@ export default function UserPage() {
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="telefono" className="form-label">
+              <label htmlFor="telefono" className="userpage-form-label">
                 <strong>Teléfono:</strong>
               </label>
               <input
@@ -96,13 +96,13 @@ export default function UserPage() {
         </div>
         <div className="d-flex justify-content-center mt-4">
           <button
-            className="btn btn-primary me-3"
+            className="btn btn-primary userpage-actualizar-btn mx-4 px-0"
             onClick={() => setShowModal(true)}
           >
             Actualizar Datos
           </button>
           <button
-            className="btn btn-danger"
+            className="btn btn-danger userpage-actualizar-btn mx-4 px-0"
             onClick={() => {
               Swal.fire({
                 title: "¿Estás seguro?",
@@ -132,7 +132,7 @@ export default function UserPage() {
                   <h5 className="modal-title">Actualizar Datos</h5>
                   <button
                     type="button"
-                    className="btn-close"
+                    className="btn-close "
                     onClick={() => setShowModal(false)}
                   ></button>
                 </div>

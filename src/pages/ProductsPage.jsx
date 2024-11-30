@@ -1,4 +1,3 @@
-// ProductsPage.jsx
 import React from "react";
 import useProductosYFiltrado from "../hooks/useProductosYFiltrado";
 import Productos from "../components/Productos";
@@ -7,7 +6,7 @@ import "../stylesPages/StyleProductPage.css";
 export default function ProductsPage() {
   const {
     productosAMostrar,
-    productosFiltrados, 
+    productosFiltrados,
     categorias,
     setFiltroPrecio,
     setBusqueda,
@@ -41,7 +40,10 @@ export default function ProductsPage() {
         </div>
 
         <div className="col-auto text-end me-4">
-          <label htmlFor="ordenSelect" className="form-label text-dark d-inline-block ordenar">
+          <label
+            htmlFor="ordenSelect"
+            className="form-label text-dark d-inline-block ordenar"
+          >
             Ordenar por precio:
           </label>
           <select
@@ -58,7 +60,10 @@ export default function ProductsPage() {
       </div>
 
       <div className="row">
-        <div id="filtroProductos" className="col-12 col-lg-3 mb-4 collapse d-lg-block">
+        <div
+          id="filtroProductos"
+          className="col-12 col-lg-3 mb-4 collapse d-lg-block"
+        >
           <div className="filtro p-3 ms-1 border rounded">
             <h4 className="mb-3 text-dark">Filtrar Productos</h4>
 
@@ -86,7 +91,9 @@ export default function ProductsPage() {
                 min={precioMin}
                 max={precioMax}
                 value={filtroPrecio[1]}
-                onChange={(e) => setFiltroPrecio([filtroPrecio[0], parseFloat(e.target.value)])}
+                onChange={(e) =>
+                  setFiltroPrecio([filtroPrecio[0], parseFloat(e.target.value)])
+                }
               />
             </div>
 
@@ -98,7 +105,9 @@ export default function ProductsPage() {
                 id="categoria"
                 className="form-select"
                 value={categoriaSeleccionada || ""}
-                onChange={(e) => setCategoriaSeleccionada(e.target.value || null)}
+                onChange={(e) =>
+                  setCategoriaSeleccionada(e.target.value || null)
+                }
               >
                 <option value="">Sin categoria</option>
                 {categorias.map((categoria) => (
@@ -108,13 +117,13 @@ export default function ProductsPage() {
                 ))}
               </select>
             </div>
-
           </div>
         </div>
 
         <div className="col-12 col-lg-9">
           <p className="fw-bold ms-3">
-            Mostrando {productosAMostrar.length} de {productosFiltrados.length} productos
+            Mostrando {productosAMostrar.length} de{" "}
+            {productosFiltrados.length} productos
           </p>
 
           {productosAMostrar.length > 0 ? (
@@ -124,15 +133,22 @@ export default function ProductsPage() {
               ))}
             </div>
           ) : (
-            <p>No hay productos disponibles dentro del rango de precios seleccionado.</p>
+            <p>
+              No hay productos disponibles dentro del rango de precios
+              seleccionado.
+            </p>
           )}
 
-          <div className="pagination mt-4 mx-auto">
+          <div className="pagination my-5 d-flex justify-content-center">
             {Array.from({ length: totalPaginas }, (_, index) => (
               <button
                 key={index + 1}
                 onClick={() => cambiarPagina(index + 1)}
-                className={`btn btn-sm mx-1 ${paginaActual === index + 1 ? "btn-primary" : "btn-secondary"}`}
+                className={`btn btn-sm mx-1 ${
+                  paginaActual === index + 1
+                    ? "btn-primary"
+                    : "btn-secondary"
+                }`}
               >
                 {index + 1}
               </button>

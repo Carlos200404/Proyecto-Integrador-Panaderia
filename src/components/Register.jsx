@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useRegistroUsuario from "../hooks/useRegistroUsuario";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../stylesComponent/styleRegister.css";
@@ -21,6 +21,8 @@ export default function Register() {
     setContrasena,
     handleSubmit,
   } = useRegistroUsuario();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="register-wrapper d-flex align-items-center justify-content-center text-dark">
@@ -95,15 +97,26 @@ export default function Register() {
                 onChange={(e) => setTelefono(e.target.value)}
               />
             </div>
-            <div className="mb-3">
-              <label className="form-label text-dark">Contraseña:</label>
+            <label className="form-label text-dark">Contraseña:</label>
+            <div className="form-group mb-3 password-container">
+             
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 value={contrasena}
                 onChange={(e) => setContrasena(e.target.value)}
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                className="btn-icon-password"
+              >
+                <i
+                  className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
+                ></i>
+              </button>
             </div>
             <button type="submit" className="btn btn-primary w-100">
               Registrar Usuario

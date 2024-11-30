@@ -1,5 +1,6 @@
 import React from "react";
 import "../stylesComponent/StyleCarrusel.css";
+import { Link } from "react-router-dom";
 
 export default function Carrusel() {
   return (
@@ -44,7 +45,7 @@ export default function Carrusel() {
                 className="text-center fs-3 mt-5 text-dark fw-bold fs-1"
                 id="parrafo-texto"
               >
-               Descubre el <span className="text-destacado">Auténtico Sabor</span> de la Tradición.
+                Descubre el <span className="text-destacado">Auténtico Sabor</span> de la Tradición.
               </p>
               <p
                 className="display-1 fw-bolder text-capitalize text-dark fs-3"
@@ -53,12 +54,14 @@ export default function Carrusel() {
                 Disfruta Cada Bocado con{" "}
                 <span className="text-destacado">Ingredientes de Calidad</span>
               </p>
-              <button
-                className="btn btn-dark px-4 py-2 fs-5 mt-5"
-                id="botonCarrusel"
-              >
-                Ver Productos
-              </button>
+              <Link to={"/productos"}>
+                <button
+                  className="btn btn-dark px-4 py-2 fs-5 mt-5"
+                  id="botonCarrusel"
+                >
+                  Ver Productos
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -73,7 +76,7 @@ export default function Carrusel() {
                 className="text-center fs-3 mt-5 text-dark fw-bold fs-1"
                 id="parrafo-texto"
               >
-                Disfruta del <span className="text-destacado">Sabor Artesanal</span> en Cada Mordisco
+                Disfruta del <span className="text-destacado">Sabor Artesanal</span> en Cada Mordisco.
               </p>
               <p
                 className="display-1 fw-bolder text-capitalize text-dark fs-3"
@@ -82,14 +85,17 @@ export default function Carrusel() {
                 Disfruta Cada Bocado con{" "}
                 <span className="text-destacado">Ingredientes de Calidad</span>
               </p>
-              <button
-                className="btn btn-dark px-4 py-2 fs-5 mt-5"
-                id="botonCarrusel"
-              >
-                Ver Productos
-              </button>
+              <Link to={"/productos"}>
+                <button
+                  className="btn btn-dark px-4 py-2 fs-5 mt-5"
+                  id="botonCarrusel"
+                >
+                  Ver Productos
+                </button>
+              </Link>
             </div>
           </div>
+
           <div className="carousel-item c-item">
             <img
               src="https://img.freepik.com/premium-photo/bakery-items-background-hd-8k-wallpaper-stock-photographic-image_1064748-71.jpg"
@@ -110,12 +116,14 @@ export default function Carrusel() {
                 Disfruta Cada Bocado con{" "}
                 <span className="text-destacado">Ingredientes de Calidad</span>
               </p>
-              <button
-                className="btn btn-dark px-4 py-2 fs-5 mt-5"
-                id="botonCarrusel"
-              >
-                Ver Productos
-              </button>
+              <Link to={"/productos"}>
+                <button
+                  className="btn btn-dark px-4 py-2 fs-5 mt-5"
+                  id="botonCarrusel"
+                >
+                  Ver Productos
+                </button>
+              </Link>
             </div>
           </div>
         </div>

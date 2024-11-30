@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../stylesComponent/styleLogin.css";
 import { useManejoSesion } from "../hooks/useManejoSesion";
 
 export default function Login() {
-  const { correo, password, setCorreo, setPassword, handleSubmit } = useManejoSesion();
+  const { correo, password, setCorreo, setPassword, handleSubmit } =
+    useManejoSesion();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="login-wrapper d-flex align-items-center justify-content-center">
@@ -34,12 +40,13 @@ export default function Login() {
                 required
               />
             </div>
-            <div className="form-group mb-3">
-              <label htmlFor="password" className="form-label text-dark">
+            <label htmlFor="password" className="form-label text-dark">
                 Contraseña
               </label>
+            <div className="form-group mb-3 password-container">
+              
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 id="password"
                 placeholder="Ingresa tu contraseña"
@@ -47,7 +54,17 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+              >
+                <i
+                  className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
+                ></i>
+              </button>
             </div>
+
             <button type="submit" className="btn btn-primary w-100">
               Iniciar Sesión
             </button>
@@ -59,7 +76,7 @@ export default function Login() {
             </p>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
