@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import { LogearUsuario } from "../service/AuntenticacionService";
@@ -8,7 +7,6 @@ import { esCorreoValido, esContrasenaValida, esCampoSeguro } from "../utils/vali
 export const useManejoSesion = () => {
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const notyf = new Notyf({
     position: { x: "center", y: "top" },
@@ -53,11 +51,15 @@ export const useManejoSesion = () => {
         return;
       }
 
-      localStorage.setItem("token", token); 
+      localStorage.setItem("token", token);
 
       notyf.success("Inicio de sesión exitoso");
 
-      navigate("/usuario");
+      // Recarga la página después de 2 segundos
+      setTimeout(() => {
+        console.log("Recargando la página...");
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       notyf.error("Correo o contraseña incorrectos.");
       console.error("Error al iniciar sesión:", error.response?.data || error.message);

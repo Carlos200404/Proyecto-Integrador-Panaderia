@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { enviarContacto } from "../service/ContactoService";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
+import Swal from "sweetalert2";
+import { enviarContacto } from "../service/ContactoService"; // Importación correcta
 import {
   esNombreValidoFormulario,
   esCorreoValidoFormulario,
   esTelefonoValidoFormulario,
   esMensajeValidoFormulario,
-  esTextoSeguro,
   esCampoSeguro,
+  esTextoSeguro,
   escaparHTML,
 } from "../utils/validaciones";
 
@@ -20,14 +19,9 @@ export default function useFormularioContacto() {
     mensaje: "",
   });
 
-  const notyf = new Notyf({
-    position: { x: "center", y: "top" },
-    duration: 3000,
-  });
-
   const handleChange = (e) => {
     const { id, value } = e.target;
-    const valorSanitizado = escaparHTML(value); 
+    const valorSanitizado = escaparHTML(value); // Escapar caracteres peligrosos
     setFormData((prevData) => ({
       ...prevData,
       [id]: valorSanitizado,
@@ -36,19 +30,19 @@ export default function useFormularioContacto() {
 
   const validarFormulario = () => {
     if (!esNombreValidoFormulario(formData.nombre) || !esCampoSeguro(formData.nombre)) {
-      notyf.error("El nombre contiene caracteres inválidos o supera el límite permitido.");
+      Swal.fire("Error", "El nombre contiene caracteres inválidos o supera el límite permitido.", "error");
       return false;
     }
     if (!esCorreoValidoFormulario(formData.correo)) {
-      notyf.error("Correo electrónico inválido.");
+      Swal.fire("Error", "Correo electrónico inválido.", "error");
       return false;
     }
     if (!esTelefonoValidoFormulario(formData.telefono) || !esCampoSeguro(formData.telefono)) {
-      notyf.error("El teléfono contiene caracteres inválidos.");
+      Swal.fire("Error", "El teléfono contiene caracteres inválidos.", "error");
       return false;
     }
     if (!esMensajeValidoFormulario(formData.mensaje) || !esTextoSeguro(formData.mensaje)) {
-      notyf.error("El mensaje contiene caracteres peligrosos o excede el límite permitido.");
+      Swal.fire("Error", "El mensaje contiene caracteres peligrosos o excede el límite permitido.", "error");
       return false;
     }
     return true;
@@ -59,15 +53,15 @@ export default function useFormularioContacto() {
     if (!validarFormulario()) return;
 
     try {
-      const response = await enviarContacto(formData);
+      const response = await enviarContacto(formData); // Llamada a la API
       if (response.status === 201) {
-        notyf.success("Formulario enviado con éxito");
+        Swal.fire("Éxito", "Formulario enviado con éxito.", "success");
         setFormData({ nombre: "", correo: "", telefono: "", mensaje: "" });
       } else {
-        notyf.error("Error al enviar el formulario");
+        Swal.fire("Error", "No se pudo enviar el formulario.", "error");
       }
     } catch (error) {
-      notyf.error("Error al enviar el formulario");
+      Swal.fire("Error", "Ocurrió un error al enviar el formulario.", "error");
       console.error("Error:", error);
     }
   };

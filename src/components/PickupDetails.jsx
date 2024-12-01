@@ -1,23 +1,38 @@
 import React from "react";
-import { esCampoSeguro, esTextoDeLongitudValida } from "../utils/validaciones";
+import Swal from "sweetalert2";
+import { esCampoSeguro } from "../utils/validaciones";
 
 const PickupDetails = ({ pickupDetails, handlePickupDetailsChange, generateTimeOptions }) => {
   const validarCampo = (id, value) => {
-    if (id === "receptor" && !esTextoDeLongitudValida(value, 3, 50)) {
-      alert("El nombre del receptor debe tener entre 3 y 50 caracteres.");
-      return false;
+    if (id === "receptor") {
+      if (value.length > 30) {
+        Swal.fire("Error", "El nombre del receptor no puede exceder los 30 caracteres.", "error");
+        return false;
+      }
+      if (value.length > 0 && !esCampoSeguro(value)) {
+        Swal.fire("Error", "El nombre del receptor contiene caracteres no permitidos.", "error");
+        return false;
+      }
     }
-    if (id === "dni" && !/^\d{8}$/.test(value)) {
-      alert("El DNI debe contener 8 dígitos.");
-      return false;
+
+    if (id === "dni") {
+      if (value.length > 8) {
+        Swal.fire("Error", "El DNI no puede exceder 8 dígitos.", "error");
+        return false;
+      }
+      if (value.length > 0 && !/^\d*$/.test(value)) {
+        Swal.fire("Error", "El DNI solo puede contener números.", "error");
+        return false;
+      }
     }
+
     return true;
   };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    if (validarCampo(id, value)) {
-      handlePickupDetailsChange(e);
+    if (value === "" || validarCampo(id, value)) {
+      handlePickupDetailsChange(e); // Permitir borrar o escribir el campo
     }
   };
 
@@ -79,6 +94,7 @@ const PickupDetails = ({ pickupDetails, handlePickupDetailsChange, generateTimeO
             className="form-control"
             value={pickupDetails.dni}
             onChange={handleChange}
+            maxLength={8} // Limita el campo a 8 caracteres
             required
           />
         </div>

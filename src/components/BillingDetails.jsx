@@ -1,27 +1,47 @@
 import React from "react";
-import { esCorreoValido, esTextoDeLongitudValida, esTelefonoValido } from "../utils/validaciones";
+import Swal from "sweetalert2";
+import { esCampoSeguro, esCorreoValido } from "../utils/validaciones";
 
 const BillingDetails = ({ billingDetails, handleBillingDetailsChange }) => {
   const validarCampo = (id, value) => {
-    if (id === "fullName" && !esTextoDeLongitudValida(value, 3, 50)) {
-      alert("El nombre completo debe tener entre 3 y 50 caracteres.");
-      return false;
+    if (id === "fullName") {
+      if (value.length > 30) {
+        Swal.fire("Error", "El nombre completo no puede exceder los 30 caracteres.", "error");
+        return false;
+      }
+      if (value.length > 0 && !esCampoSeguro(value)) {
+        Swal.fire("Error", "El nombre completo contiene caracteres no permitidos.", "error");
+        return false;
+      }
     }
-    if (id === "email" && !esCorreoValido(value)) {
-      alert("El correo electrónico no es válido.");
-      return false;
+
+    if (id === "email") {
+      // Valida contra SQL Injection y XSS, pero permite escribir libremente
+      if (value.length > 0 && !esCampoSeguro(value)) {
+        Swal.fire("Error", "El correo contiene caracteres no permitidos.", "error");
+        return false;
+      }
     }
-    if (id === "phone" && !esTelefonoValido(value)) {
-      alert("El teléfono debe contener solo números.");
-      return false;
+
+    if (id === "phone") {
+      // Valida que solo se escriban números
+      if (value.length > 9) {
+        Swal.fire("Error", "El teléfono no puede exceder los 9 dígitos.", "error");
+        return false;
+      }
+      if (value.length > 0 && !/^\d*$/.test(value)) {
+        Swal.fire("Error", "El teléfono solo puede contener números.", "error");
+        return false;
+      }
     }
+
     return true;
   };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    if (validarCampo(id, value)) {
-      handleBillingDetailsChange(e);
+    if (value === "" || validarCampo(id, value)) {
+      handleBillingDetailsChange(e); // Permitir borrar o escribir el campo
     }
   };
 
@@ -61,6 +81,7 @@ const BillingDetails = ({ billingDetails, handleBillingDetailsChange }) => {
           className="form-control"
           value={billingDetails.phone}
           onChange={handleChange}
+          maxLength={9} // Limita el número de caracteres a 9
           required
         />
       </div>

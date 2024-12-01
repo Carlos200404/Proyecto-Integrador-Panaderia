@@ -7,8 +7,8 @@ import "notyf/notyf.min.css";
 const CartPage = () => {
   const { carrito, setCarrito } = useContext(CarritoContext);
   const notyf = new Notyf({
-    duration: 3000, // Duración de las notificaciones
-    dismissible: true, // Permitir cerrar las notificaciones manualmente
+    duration: 3000,
+    dismissible: true,
   });
 
   const actualizarCantidad = (id, cantidad) => {
@@ -17,22 +17,21 @@ const CartPage = () => {
         if (producto.id === id) {
           const nuevaCantidad = producto.cantidad + cantidad;
 
-          // Validar que no exceda el límite de 10 unidades
           if (nuevaCantidad > 10) {
             notyf.error("No puedes agregar más de 10 unidades de este producto.");
-            return producto; // No realizar ningún cambio
+            return producto;
           }
 
           if (nuevaCantidad < 1) {
             notyf.success("Producto eliminado del carrito.");
-            return null; // Eliminar producto si la cantidad es menor a 1
+            return null;
           }
 
           return { ...producto, cantidad: nuevaCantidad };
         }
         return producto;
       })
-      .filter(Boolean); // Elimina productos nulos
+      .filter(Boolean);
 
     setCarrito(nuevoCarrito);
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
@@ -49,18 +48,18 @@ const CartPage = () => {
     return <p className="text-center mt-5 text-dark">Tu carrito está vacío.</p>;
   }
 
-  // Estilos embebidos
+  const linkStyles = {
+    fontSize: "0.9rem",
+    color: "#6c3b2a",
+    fontWeight: "bold",
+    textDecoration: "none",
+  };
+
+  const linkHoverStyles = {
+    color: "#ca4a28",
+  };
+
   const styles = {
-    volverLink: {
-      fontSize: "0.9rem",
-      color: "#6c3b2a",
-      fontWeight: "bold",
-      textDecoration: "none",
-    },
-    volverLinkHover: {
-      textDecoration: "underline",
-      color: "#ca4a28",
-    },
     imgProducto: {
       width: "80px",
       height: "80px",
@@ -100,16 +99,16 @@ const CartPage = () => {
       <div className="mb-4">
         <Link
           to="/productos"
-          style={styles.volverLink}
-          onMouseEnter={(e) => (e.target.style.color = styles.volverLinkHover.color)}
-          onMouseLeave={(e) => (e.target.style.color = styles.volverLink.color)}
+          style={linkStyles}
+          onMouseEnter={(e) => (e.target.style.color = linkHoverStyles.color)}
+          onMouseLeave={(e) => (e.target.style.color = linkStyles.color)}
         >
-          <span>&larr; Productos / Carrito</span>
+         <i className="bi bi-arrow-left"></i> Productos
         </Link>
-        <h2 className="mt-2 text-dark">
-          Tu Carrito de Compras ({carrito.length}):
-        </h2>
+        {" / "}
+        <span style={{ fontWeight: "bold", color: "#6c3b2a" }}>Carrito</span>
       </div>
+      <h2 className="mt-2 text-dark">Tu Carrito de Compras ({carrito.length}):</h2>
       <div className="table-responsive">
         <table
           className="table table-bordered text-center align-middle"
@@ -167,7 +166,7 @@ const CartPage = () => {
           <strong className="fw-bold">SubTotal:</strong> S/{" "}
           {calcularTotal().toFixed(2)}
         </h5>
-        <Link to={"/checkout"}>
+        <Link to="/checkout">
           <button
             className="btn"
             style={styles.btnPagar}

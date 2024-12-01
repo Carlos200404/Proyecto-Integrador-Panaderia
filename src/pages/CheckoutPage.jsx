@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import BillingDetails from "../components/BillingDetails";
@@ -46,6 +46,17 @@ const CheckoutPage = () => {
   });
   const [cart, setCart] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+
+  const linkStyles = {
+    fontSize: "0.9rem",
+    color: "#6c3b2a",
+    fontWeight: "bold",
+    textDecoration: "none",
+  };
+
+  const linkHoverStyles = {
+    color: "#ca4a28",
+  };
 
   useEffect(() => {
     const updateCart = () => {
@@ -158,6 +169,27 @@ const CheckoutPage = () => {
 
   return (
     <div className="container mt-5">
+      <div className="mb-4">
+        <Link
+          to="/productos"
+          style={linkStyles}
+          onMouseEnter={(e) => (e.target.style.color = linkHoverStyles.color)}
+          onMouseLeave={(e) => (e.target.style.color = linkStyles.color)}
+        >
+           <i className="bi bi-arrow-left"></i> Productos
+        </Link>
+        {" / "}
+        <Link
+          to="/carrito"
+          style={linkStyles}
+          onMouseEnter={(e) => (e.target.style.color = linkHoverStyles.color)}
+          onMouseLeave={(e) => (e.target.style.color = linkStyles.color)}
+        >
+          Carrito
+        </Link>
+        {" / "}
+        <span style={{ fontWeight: "bold", color: "#6c3b2a" }}>Checkout</span>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-6">

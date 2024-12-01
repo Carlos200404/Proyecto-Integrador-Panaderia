@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext"; 
+import { useNavigate } from "react-router-dom"; // Importa el hook useNavigate
+import { AuthContext } from "../context/AuthContext";
 import HistorialPedido from "../components/HistorialPedido";
 import Login from "../components/Login";
 
@@ -7,7 +8,7 @@ import Swal from "sweetalert2";
 import "../stylesPages/styleUserPage.css";
 
 export default function UserPage() {
-  
+  const navigate = useNavigate(); // Inicializa el hook
   const { isAuthenticated, userData, historial, handleLogout } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState({
@@ -21,7 +22,7 @@ export default function UserPage() {
     const { name, value } = e.target;
     setEditData((prevData) => ({ ...prevData, [name]: value }));
   };
-  
+
   if (!isAuthenticated) {
     return <Login />;
   }
@@ -69,25 +70,31 @@ export default function UserPage() {
           </h2>
           <p>{userData.correo || "Correo no disponible"}</p>
         </div>
-        <div className="perfil-botones">
+        <div className="perfil-botones mt-3">
+          <button
+            className="btn btn-success" // Agrega estilos CSS para el botón
+            onClick={() => navigate("/")} // Redirige a la página principal
+          >
+            Volver a Inicio
+          </button>
           <button className="boton-primario" onClick={() => setShowModal(true)}>
             Editar Datos
           </button>
           <button className="boton-peligro" onClick={confirmLogout}>
             Cerrar Sesión
           </button>
+
         </div>
       </div>
 
       {/* Formulario */}
       <div className="perfil-formulario">
         <div className="grupo-formulario">
-          <label>Full Name</label>
+          <label>Nombre Completo</label>
           <input
             type="text"
-            placeholder={`${userData.nombre || "Nombre"} ${
-              userData.apellido || "no disponible"
-            }`}
+            placeholder={`${userData.nombre || "Nombre"} ${userData.apellido || "no disponible"
+              }`}
             disabled
           />
         </div>
@@ -100,7 +107,7 @@ export default function UserPage() {
           <input type="tel" placeholder={userData.telefono || "Teléfono no disponible"} disabled />
         </div>
         <div className="grupo-formulario">
-          <label>Country</label>
+          <label>País</label>
           <input type="text" placeholder="Perú" disabled />
         </div>
       </div>
@@ -111,9 +118,8 @@ export default function UserPage() {
           <i className="bi bi-bag-fill icono-pedidos"></i>
           <h3>Mis Pedidos</h3>
         </div>
-        <HistorialPedido historial={historial}/>
+        <HistorialPedido historial={historial} />
       </div>
-
 
       {/* Modal para editar datos */}
       {showModal && (

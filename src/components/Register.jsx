@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importamos useNavigate
 import useRegistroUsuario from "../hooks/useRegistroUsuario";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../stylesComponent/styleRegister.css";
@@ -23,6 +24,11 @@ export default function Register() {
   } = useRegistroUsuario();
 
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // Inicializamos useNavigate
+
+  const handleBackToUserPage = () => {
+    navigate("/usuario"); // Redirige a la página de usuario
+  };
 
   return (
     <div className="register-wrapper d-flex align-items-center justify-content-center text-dark">
@@ -99,7 +105,6 @@ export default function Register() {
             </div>
             <label className="form-label text-dark">Contraseña:</label>
             <div className="form-group mb-3 password-container">
-             
               <input
                 type={showPassword ? "text" : "password"}
                 className="form-control"
@@ -122,6 +127,17 @@ export default function Register() {
               Registrar Usuario
             </button>
           </form>
+
+          {/* Botón para regresar a /usuario */}
+          <div className="text-center mt-3">
+            <button
+              type="button"
+              className="btn btn-outline-secondary w-100"
+              onClick={handleBackToUserPage}
+            >
+              Volver al login
+            </button>
+          </div>
         </div>
       </div>
     </div>

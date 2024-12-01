@@ -1,53 +1,24 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { CarritoContext } from "../context/CarritoContext";
-import Swal from "sweetalert2";
-import axios from "axios";
+import { useHistorialPedido } from "../hooks/useHistorialPedido";
+import { useModal } from "../hooks/useModal";
 import "../stylesComponent/HistorialPedido.css";
 
 export default function HistorialPedido({ historial }) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
-  const itemsPerPage = 2;
   const { volverARealizarPedido } = useContext(CarritoContext);
-  const [showModal, setShowModal] = useState(false);
 
-  const obtenerDetallePedido = async (pedidoId) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8081/api/historial-pedidos/detalle/${pedidoId}`
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Error al obtener los detalles del pedido:", error);
-      return null;
-    }
-  };
+  const {
+    currentPage,
+    setCurrentPage,
+    pedidoSeleccionado,
+    setPedidoSeleccionado,
+    handleVerDetalles,
+    handleVolverAPedir,
+  } = useHistorialPedido(volverARealizarPedido);
 
-  const handleVerDetalles = async (pedido) => {
-    setPedidoSeleccionado(pedido);
-    setShowModal(true);
+  const { showModal, setShowModal, handleCloseModal } = useModal();
 
-    const detalle = await obtenerDetallePedido(pedido.pedidoId);
-    if (detalle) {
-      setPedidoSeleccionado((prev) => ({ ...prev, ...detalle }));
-    }
-  };
-
-  const handleVolverAPedir = (productos) => {
-    const resultado = volverARealizarPedido(productos);
-
-    if (resultado.success) {
-      Swal.fire("¡Éxito!", resultado.message, "success");
-    } else {
-      Swal.fire("Error", resultado.message, "error");
-    }
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setPedidoSeleccionado(null);
-  };
-
+  const itemsPerPage = 2;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = historial.slice(indexOfFirstItem, indexOfLastItem);
@@ -61,7 +32,7 @@ export default function HistorialPedido({ historial }) {
           <div
             key={pedido.pedidoId}
             className="cartapedido position-relative"
-            onClick={() => handleVerDetalles(pedido)}
+            onClick={() => handleVerDetalles(pedido, setShowModal)}
             style={{ cursor: "pointer" }}
           >
             <div
@@ -72,10 +43,12 @@ export default function HistorialPedido({ historial }) {
                 padding: "5px 15px",
                 backgroundColor:
                   pedido.estado === "Pendiente"
-                    ? "#007bff"
+                    ? "#007bff" // Azul
                     : pedido.estado === "Entregado"
-                    ? "#28a745"
-                    : "#6c757d",
+                      ? "#28a745" // Verde
+                      : pedido.estado === "En Proceso"
+                        ? "#ffc107" // Amarillo
+                        : "#6c757d", // Gris para otros estados
                 color: "#fff",
                 borderRadius: "5px",
                 fontWeight: "bold",
@@ -83,6 +56,7 @@ export default function HistorialPedido({ historial }) {
             >
               {(pedido.estado || "Desconocido").toUpperCase()}
             </div>
+
 
             <div className="pedido-info">
               <p>
@@ -113,11 +87,10 @@ export default function HistorialPedido({ historial }) {
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index + 1}
-              className={`btn mx-1 ${
-                currentPage === index + 1
+              className={`btn mx-1 ${currentPage === index + 1
                   ? "btn-primary"
                   : "btn-outline-secondary"
-              }`}
+                }`}
               onClick={() => setCurrentPage(index + 1)}
             >
               {index + 1}
@@ -197,7 +170,10 @@ export default function HistorialPedido({ historial }) {
               >
                 Volver a Hacer Pedido
               </button>
-              <button className="btn btn-danger" onClick={handleCloseModal}>
+              <button
+                className="btn btn-danger"
+                onClick={() => handleCloseModal(setPedidoSeleccionado)}
+              >
                 Cerrar
               </button>
             </div>

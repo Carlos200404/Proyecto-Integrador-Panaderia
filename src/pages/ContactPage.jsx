@@ -35,12 +35,13 @@ export default function ContactPage() {
         <div className="form-group mb-3">
           <label htmlFor="telefono" className="form-label fw-bold text-dark">Teléfono</label>
           <input
-            type="tel"
+            type="text"
             className="form-control"
             id="telefono"
             placeholder="Ingresa tu número de teléfono"
             value={formData.telefono}
             onChange={handleChange}
+            maxLength={9}
             required
           />
         </div>
@@ -56,7 +57,9 @@ export default function ContactPage() {
             required
           ></textarea>
         </div>
-        <button type="submit" className="btn text-light btn-block" id="btn-formulario">Enviar</button>
+        <button type="submit" className="btn btn-primary text-light btn-block" id="btn-formulario">
+          Enviar
+        </button>
       </form>
     </div>
   );

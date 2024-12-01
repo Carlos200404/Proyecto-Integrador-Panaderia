@@ -64,10 +64,26 @@ export default function DetailsPage() {
     return <p className="details-not-found">No se encontró el producto.</p>;
   }
 
+  const volverLinkStyles = {
+    fontSize: "0.9rem",
+    color: "#6c3b2a",
+    fontWeight: "bold",
+    textDecoration: "none",
+  };
+
+  const volverLinkHoverStyles = {
+    color: "#ca4a28",
+  };
+
   return (
     <div className="container details-container">
       <div className="details-back-link">
-        <Link to="/productos" className="text-decoration-none">
+        <Link
+          to="/productos"
+          style={volverLinkStyles}
+          onMouseEnter={(e) => (e.target.style.color = volverLinkHoverStyles.color)}
+          onMouseLeave={(e) => (e.target.style.color = volverLinkStyles.color)}
+        >
           <i className="bi bi-arrow-left"></i> Volver a Productos
         </Link>
       </div>

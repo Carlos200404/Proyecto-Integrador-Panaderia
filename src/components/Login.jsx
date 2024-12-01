@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "../stylesComponent/styleLogin.css";
+import { Link, useNavigate } from "react-router-dom"; // Importamos useNavigate
 import { useManejoSesion } from "../hooks/useManejoSesion";
+import "../stylesComponent/styleLogin.css";
 
 export default function Login() {
   const { correo, password, setCorreo, setPassword, handleSubmit } =
     useManejoSesion();
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate(); // Usamos useNavigate para redirigir a la página principal
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleBackToHome = () => {
+    navigate("/"); // Redirige a la página principal
   };
 
   return (
@@ -41,10 +47,9 @@ export default function Login() {
               />
             </div>
             <label htmlFor="password" className="form-label text-dark">
-                Contraseña
-              </label>
+              Contraseña
+            </label>
             <div className="form-group mb-3 password-container">
-              
               <input
                 type={showPassword ? "text" : "password"}
                 className="form-control"
@@ -56,7 +61,7 @@ export default function Login() {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={togglePasswordVisibility}
                 aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               >
                 <i
@@ -75,8 +80,19 @@ export default function Login() {
               ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
             </p>
           </div>
+
+          {/* Botón para volver a la página principal */}
+          <div className="text-center mt-3">
+            <button
+              type="button"
+              className="btn btn-outline-secondary w-100"
+              onClick={handleBackToHome}
+            >
+              Volver a la página principal
+            </button>
+          </div>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }

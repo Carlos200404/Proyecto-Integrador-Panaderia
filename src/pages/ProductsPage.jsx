@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from "sweetalert2";
 import useProductosYFiltrado from "../hooks/useProductosYFiltrado";
 import Productos from "../components/Productos";
 import "../stylesPages/StyleProductPage.css";
@@ -22,6 +23,59 @@ export default function ProductsPage() {
     cambiarPagina,
     totalPaginas,
   } = useProductosYFiltrado();
+
+  // Función para validar caracteres peligrosos
+  const esEntradaSegura = (texto) => {
+    // Solo permite letras, números, espacios y algunos caracteres básicos
+    const regex = /^[a-zA-Z0-9\s.,-]*$/;
+    return regex.test(texto);
+  };
+
+  const validarFiltroPrecio = (nuevoPrecio) => {
+    if (nuevoPrecio < precioMin || nuevoPrecio > precioMax) {
+      Swal.fire(
+        "Error",
+        `El precio debe estar entre S/${precioMin} y S/${precioMax}.`,
+        "error"
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const validarBusqueda = (texto) => {
+    if (texto.length > 30) {
+      Swal.fire(
+        "Error",
+        "La búsqueda no puede exceder los 30 caracteres.",
+        "error"
+      );
+      return false;
+    }
+    if (!esEntradaSegura(texto)) {
+      Swal.fire(
+        "Error",
+        "La búsqueda contiene caracteres no permitidos.",
+        "error"
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const handleFiltroPrecio = (e) => {
+    const nuevoPrecio = parseFloat(e.target.value);
+    if (validarFiltroPrecio(nuevoPrecio)) {
+      setFiltroPrecio([filtroPrecio[0], nuevoPrecio]);
+    }
+  };
+
+  const handleBusqueda = (e) => {
+    const texto = e.target.value;
+    if (validarBusqueda(texto)) {
+      setBusqueda(texto);
+    }
+  };
 
   return (
     <div className="container-fluid">
@@ -77,7 +131,7 @@ export default function ProductsPage() {
                 className="form-control"
                 placeholder="Buscar por nombre"
                 value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
+                onChange={handleBusqueda}
               />
             </div>
 
@@ -91,9 +145,7 @@ export default function ProductsPage() {
                 min={precioMin}
                 max={precioMax}
                 value={filtroPrecio[1]}
-                onChange={(e) =>
-                  setFiltroPrecio([filtroPrecio[0], parseFloat(e.target.value)])
-                }
+                onChange={handleFiltroPrecio}
               />
             </div>
 
