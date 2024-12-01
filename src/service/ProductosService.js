@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8081/api/productos';
+// Cambiar localhost por el URL de producción
+const API_URL = 'https://backend-integrador-production.up.railway.app/api/productos';
+
 const obtenerTodosLosProductos = () => {
     return axios.get(`${API_URL}/listarProductos`);
 };
@@ -9,9 +11,8 @@ const obtenerProductosDestacados = () => {
     return axios.get(`${API_URL}/masVendidos`);
 };
 
-const API_URL2 = 'http://localhost:8081/api/productos/obtenerPorId'
 const obtenerProductoPorId = (id) => {
-    return axios.get(`${API_URL2}/${id}`);
+    return axios.get(`${API_URL}/obtenerPorId/${id}`);
 };
 
 export default {

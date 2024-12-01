@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8081/api/historial-pedidos";
+// Cambiar localhost por el URL de producción
+const API_URL = "https://backend-integrador-production.up.railway.app/api/historial-pedidos";
 
 // Obtener el historial de pedidos por usuario
 export const obtenerHistorialPorUsuario = (idUsuario) => {

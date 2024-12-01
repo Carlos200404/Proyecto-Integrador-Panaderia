@@ -1,13 +1,14 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8081/api/auth";
+// Reemplaza el localhost con tu URL del backend en producción
+const API_URL = "https://backend-integrador-production.up.railway.app/api/auth";
 
 export const LogearUsuario = (correo, password) => {
   return axios.post(`${API_URL}/login`, { correo, password });
 };
 
 export const RegistrarUsuario = (userData) => {
-  return axios.post("http://localhost:8081/api/usuarios/registrar", userData, {
+  return axios.post("https://backend-integrador-production.up.railway.app/api/usuarios/registrar", userData, {
     headers: { "Content-Type": "application/json" },
   });
 };
