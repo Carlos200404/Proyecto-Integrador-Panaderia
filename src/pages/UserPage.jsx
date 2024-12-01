@@ -1,14 +1,16 @@
 import React, { useContext, useState } from "react";
-import Swal from "sweetalert2";
-import Login from "../components/Login";
+import { AuthContext } from "../context/AuthContext"; 
 import HistorialPedido from "../components/HistorialPedido";
-import { AuthContext } from "../context/AuthContext";
+import Login from "../components/Login";
+
+import Swal from "sweetalert2";
 import "../stylesPages/styleUserPage.css";
 
 export default function UserPage() {
+  
   const { isAuthenticated, userData, historial, handleLogout } = useContext(AuthContext);
-  const [showModal, setShowModal] = useState(false); 
-  const [formState, setFormState] = useState({
+  const [showModal, setShowModal] = useState(false);
+  const [editData, setEditData] = useState({
     nombre: userData.nombre || "",
     apellido: userData.apellido || "",
     correo: userData.correo || "",
@@ -17,136 +19,156 @@ export default function UserPage() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setEditData((prevData) => ({ ...prevData, [name]: value }));
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    Swal.fire("¡Datos actualizados!", "Tu información ha sido guardada.", "success");
-    setShowModal(false);
-  };
-
+  
   if (!isAuthenticated) {
     return <Login />;
   }
 
+  const handleSaveChanges = () => {
+    if (!editData.nombre || !editData.apellido || !editData.correo || !editData.telefono) {
+      Swal.fire("Error", "Todos los campos deben estar llenos.", "error");
+      return;
+    }
+
+    Swal.fire("¡Éxito!", "Tus datos han sido actualizados correctamente.", "success");
+    console.log("Datos guardados:", editData);
+    setShowModal(false);
+  };
+
+  const confirmLogout = () => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Quieres cerrar sesión?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, cerrar sesión",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleLogout();
+        Swal.fire("Cerraste sesión", "Tu sesión ha sido cerrada exitosamente.", "success");
+      }
+    });
+  };
+
   return (
-    <div className="container mt-5">
-      <div>
-        <h1 className="userpage-text-dark">
-          <i className="bi bi-person-circle userpage-profile-icon"></i>
-          Bienvenido, {userData.nombre}!
-        </h1>
-        <div className="mt-4">
-          <div className="row">
-            <div className="col-md-6">
-              <label htmlFor="nombre" className="userpage-form-label">
-                <strong>Nombre:</strong>
-              </label>
-              <input
-                type="text"
-                id="nombre"
-                className="form-control"
-                value={formState.nombre}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="apellido" className="userpage-form-label">
-                <strong>Apellido:</strong>
-              </label>
-              <input
-                type="text"
-                id="apellido"
-                className="form-control"
-                value={formState.apellido}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="row mt-3">
-            <div className="col-md-6">
-              <label htmlFor="correo" className="userpage-form-label">
-                <strong>Correo:</strong>
-              </label>
-              <input
-                type="email"
-                id="correo"
-                className="form-control"
-                value={formState.correo}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="telefono" className="userpage-form-label">
-                <strong>Teléfono:</strong>
-              </label>
-              <input
-                type="tel"
-                id="telefono"
-                className="form-control"
-                value={formState.telefono}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
+    <div className="container-perfil">
+      {/* Sección de Perfil */}
+      <div className="perfil-header">
+        <div className="perfil-imagen">
+          <i className="bi bi-person-circle icono-perfil"></i>
         </div>
-        <div className="d-flex justify-content-center mt-4">
-          <button
-            className="btn btn-primary userpage-actualizar-btn mx-4 px-0"
-            onClick={() => setShowModal(true)}
-          >
-            Actualizar Datos
+        <div className="perfil-informacion">
+          <h2>
+            ¡Bienvenido,{" "}
+            {`${userData.nombre || "Nombre"} `}!
+          </h2>
+          <p>{userData.correo || "Correo no disponible"}</p>
+        </div>
+        <div className="perfil-botones">
+          <button className="boton-primario" onClick={() => setShowModal(true)}>
+            Editar Datos
           </button>
-          <button
-            className="btn btn-danger userpage-actualizar-btn mx-4 px-0"
-            onClick={() => {
-              Swal.fire({
-                title: "¿Estás seguro?",
-                text: "¿Quieres cerrar sesión?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
-                confirmButtonText: "Sí, cerrar sesión",
-                cancelButtonText: "Cancelar",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  handleLogout();
-                  Swal.fire("Cerraste sesión", "Tu sesión ha sido cerrada exitosamente.", "success");
-                }
-              });
-            }}
-          >
+          <button className="boton-peligro" onClick={confirmLogout}>
             Cerrar Sesión
           </button>
         </div>
-        {showModal && (
-          <div className="modal show" style={{ backgroundColor: "rgba(0, 0, 0, 0.3)" }}>
-            <div className="modal-dialog modal-lg">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Actualizar Datos</h5>
-                  <button
-                    type="button"
-                    className="btn-close "
-                    onClick={() => setShowModal(false)}
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  <form onSubmit={handleSubmit}>
-                    {/* Formulario */}
-                  </form>
-                </div>
+      </div>
+
+      {/* Formulario */}
+      <div className="perfil-formulario">
+        <div className="grupo-formulario">
+          <label>Full Name</label>
+          <input
+            type="text"
+            placeholder={`${userData.nombre || "Nombre"} ${
+              userData.apellido || "no disponible"
+            }`}
+            disabled
+          />
+        </div>
+        <div className="grupo-formulario">
+          <label>Correo Electrónico</label>
+          <input type="email" placeholder={userData.correo || "Correo no disponible"} disabled />
+        </div>
+        <div className="grupo-formulario">
+          <label>Teléfono</label>
+          <input type="tel" placeholder={userData.telefono || "Teléfono no disponible"} disabled />
+        </div>
+        <div className="grupo-formulario">
+          <label>Country</label>
+          <input type="text" placeholder="Perú" disabled />
+        </div>
+      </div>
+
+      {/* Sección de Pedidos */}
+      <div className="perfil-pedidos">
+        <div className="pedidos-header">
+          <i className="bi bi-bag-fill icono-pedidos"></i>
+          <h3>Mis Pedidos</h3>
+        </div>
+        <HistorialPedido historial={historial}/>
+      </div>
+
+
+      {/* Modal para editar datos */}
+      {showModal && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            <h2 className="text-dark">Editar Datos</h2>
+            <div className="modal-form">
+              <div className="grupo-formulario">
+                <label>Nombre</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  value={editData.nombre}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grupo-formulario">
+                <label>Apellido</label>
+                <input
+                  type="text"
+                  name="apellido"
+                  value={editData.apellido}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grupo-formulario">
+                <label>Correo Electrónico</label>
+                <input
+                  type="email"
+                  name="correo"
+                  value={editData.correo}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grupo-formulario">
+                <label>Teléfono</label>
+                <input
+                  type="tel"
+                  name="telefono"
+                  value={editData.telefono}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
+            <div className="modal-buttons">
+              <button className="boton-primario" onClick={handleSaveChanges}>
+                Guardar Cambios
+              </button>
+              <button className="boton-peligro" onClick={() => setShowModal(false)}>
+                Cancelar
+              </button>
+            </div>
           </div>
-        )}
-        <HistorialPedido historial={historial} />
-      </div>
+        </div>
+      )}
     </div>
   );
 }

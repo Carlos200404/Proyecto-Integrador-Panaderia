@@ -1,23 +1,39 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CarritoContext } from "../context/CarritoContext";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 
 const CartPage = () => {
   const { carrito, setCarrito } = useContext(CarritoContext);
+  const notyf = new Notyf({
+    duration: 3000, // Duración de las notificaciones
+    dismissible: true, // Permitir cerrar las notificaciones manualmente
+  });
 
   const actualizarCantidad = (id, cantidad) => {
     const nuevoCarrito = carrito
       .map((producto) => {
         if (producto.id === id) {
           const nuevaCantidad = producto.cantidad + cantidad;
+
+          // Validar que no exceda el límite de 10 unidades
+          if (nuevaCantidad > 10) {
+            notyf.error("No puedes agregar más de 10 unidades de este producto.");
+            return producto; // No realizar ningún cambio
+          }
+
           if (nuevaCantidad < 1) {
+            notyf.success("Producto eliminado del carrito.");
             return null; // Eliminar producto si la cantidad es menor a 1
           }
+
           return { ...producto, cantidad: nuevaCantidad };
         }
         return producto;
       })
       .filter(Boolean); // Elimina productos nulos
+
     setCarrito(nuevoCarrito);
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
   };

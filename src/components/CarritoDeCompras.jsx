@@ -14,16 +14,24 @@ export default function CarritoDeCompras({ mostrarCarrito, cerrarCarrito }) {
   const aumentarCantidad = (index) => {
     const nuevoCarrito = [...carrito];
     const producto = nuevoCarrito[index];
-
+  
+    // Validar que no se exceda el stock disponible
     if (producto.cantidad + 1 > producto.stock) {
-      notyf.error("No hay suficiente stock disponible");
+      notyf.error("No hay suficiente stock disponible.");
       return;
     }
-
+  
+    // Validar que no se exceda el límite de 10 unidades
+    if (producto.cantidad + 1 > 10) {
+      notyf.error("No puedes agregar más de 10 unidades de este producto.");
+      return;
+    }
+  
     producto.cantidad += 1;
     setCarrito(nuevoCarrito);
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
   };
+  
 
   const disminuirCantidad = (index) => {
     const nuevoCarrito = [...carrito];
