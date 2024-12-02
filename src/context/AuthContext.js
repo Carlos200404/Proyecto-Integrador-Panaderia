@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         isAuthenticated,
         userData,
+        setUserData,
         historial, 
         handleLogout,
       }}

@@ -16,26 +16,32 @@ const CartPage = () => {
       .map((producto) => {
         if (producto.id === id) {
           const nuevaCantidad = producto.cantidad + cantidad;
-
+  
+          if (nuevaCantidad > producto.stock) {
+            notyf.error("No hay suficiente stock disponible para este producto.");
+            return producto;
+          }
+  
           if (nuevaCantidad > 10) {
             notyf.error("No puedes agregar más de 10 unidades de este producto.");
             return producto;
           }
-
+  
           if (nuevaCantidad < 1) {
             notyf.success("Producto eliminado del carrito.");
             return null;
           }
-
+  
           return { ...producto, cantidad: nuevaCantidad };
         }
         return producto;
       })
       .filter(Boolean);
-
+  
     setCarrito(nuevoCarrito);
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
   };
+  
 
   const calcularTotal = () => {
     return carrito.reduce(

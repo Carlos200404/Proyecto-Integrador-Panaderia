@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom"; // Importa el hook useNavigate
 import { AuthContext } from "../context/AuthContext";
 import HistorialPedido from "../components/HistorialPedido";
 import Login from "../components/Login";
-
+import { ActualizarUsuario } from "../service/AuntenticacionService";
 import Swal from "sweetalert2";
+import { esCampoSeguro, esCorreoValido } from "../utils/validaciones";
 import "../stylesPages/styleUserPage.css";
 
 export default function UserPage() {
@@ -27,16 +28,53 @@ export default function UserPage() {
     return <Login />;
   }
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     if (!editData.nombre || !editData.apellido || !editData.correo || !editData.telefono) {
       Swal.fire("Error", "Todos los campos deben estar llenos.", "error");
       return;
     }
 
-    Swal.fire("¡Éxito!", "Tus datos han sido actualizados correctamente.", "success");
-    console.log("Datos guardados:", editData);
-    setShowModal(false);
+    if (!esCorreoValido(editData.correo)) {
+      Swal.fire("Error", "El correo no tiene un formato válido.", "error");
+      return;
+    }
+
+    if (
+      !esCampoSeguro(editData.nombre) ||
+      !esCampoSeguro(editData.apellido) ||
+      !esCampoSeguro(editData.correo)
+    ) {
+      Swal.fire("Error", "Los campos contienen caracteres no permitidos.", "error");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        Swal.fire("Error", "No tienes una sesión activa.", "error");
+        return;
+      }
+
+      await ActualizarUsuario(token, editData);
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "Datos actualizados. Por favor, inicia sesión nuevamente.",
+        icon: "success",
+        confirmButtonText: "Cerrar sesión",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("token");
+          window.location.reload();
+        }
+      });
+    } catch (error) {
+      Swal.fire("Error", error.response?.data || "Hubo un problema al actualizar los datos.", "error");
+    }
   };
+
+
+
+
 
   const confirmLogout = () => {
     Swal.fire({
@@ -120,50 +158,102 @@ export default function UserPage() {
         </div>
         <HistorialPedido historial={historial} />
       </div>
-
       {/* Modal para editar datos */}
       {showModal && (
         <div className="modal-backdrop">
           <div className="modal-content">
             <h2 className="text-dark">Editar Datos</h2>
             <div className="modal-form">
+              {/* Validación para Nombre */}
               <div className="grupo-formulario">
                 <label>Nombre</label>
                 <input
                   type="text"
                   name="nombre"
                   value={editData.nombre}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    if (value.length > 30) {
+                      Swal.fire("Error", "El nombre no puede exceder los 30 caracteres.", "error");
+                    } else if (!esCampoSeguro(value) && value.length > 0) {
+                      Swal.fire("Error", "El nombre contiene caracteres no permitidos.", "error");
+                    } else {
+                      // Actualizar el estado solo si el valor es válido
+                      setEditData((prevData) => ({ ...prevData, [name]: value }));
+                    }
+                  }}
                 />
               </div>
+
+              {/* Validación para Apellido */}
               <div className="grupo-formulario">
                 <label>Apellido</label>
                 <input
                   type="text"
                   name="apellido"
                   value={editData.apellido}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    if (value.length > 30) {
+                      Swal.fire("Error", "El apellido no puede exceder los 30 caracteres.", "error");
+                    } else if (!esCampoSeguro(value) && value.length > 0) {
+                      Swal.fire("Error", "El apellido contiene caracteres no permitidos.", "error");
+                    } else {
+                      // Actualizar el estado solo si el valor es válido
+                      setEditData((prevData) => ({ ...prevData, [name]: value }));
+                    }
+                  }}
                 />
               </div>
+
+              {/* Validación para Correo Electrónico */}
               <div className="grupo-formulario">
                 <label>Correo Electrónico</label>
                 <input
                   type="email"
                   name="correo"
                   value={editData.correo}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    // Actualizar el estado siempre
+                    setEditData((prevData) => ({ ...prevData, [name]: value }));
+                  }}
+                  onBlur={(e) => {
+                    const { value } = e.target;
+                    // Validar al salir del campo
+                    if (!esCorreoValido(value)) {
+                      Swal.fire("Error", "El correo no tiene un formato válido.", "error");
+                    } else if (!esCampoSeguro(value)) {
+                      Swal.fire("Error", "El correo contiene caracteres no permitidos.", "error");
+                    }
+                  }}
                 />
               </div>
+
+              {/* Validación para Teléfono */}
               <div className="grupo-formulario">
                 <label>Teléfono</label>
                 <input
                   type="tel"
                   name="telefono"
                   value={editData.telefono}
-                  onChange={handleInputChange}
+                  maxLength={9} // Limitar siempre a 9 caracteres
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    if (value.length > 9) {
+                      Swal.fire("Error", "El teléfono no puede exceder los 9 dígitos.", "error");
+                    } else if (!/^\d*$/.test(value) && value.length > 0) {
+                      Swal.fire("Error", "El teléfono solo puede contener números.", "error");
+                    } else {
+                      // Actualizar el estado solo si el valor es válido
+                      setEditData((prevData) => ({ ...prevData, [name]: value }));
+                    }
+                  }}
                 />
               </div>
             </div>
+
+            {/* Botones para guardar o cancelar */}
             <div className="modal-buttons">
               <button className="boton-primario" onClick={handleSaveChanges}>
                 Guardar Cambios
@@ -175,6 +265,7 @@ export default function UserPage() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
